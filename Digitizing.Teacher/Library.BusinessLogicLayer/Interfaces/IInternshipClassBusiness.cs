@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.BusinessLogicLayer.Interfaces
+namespace Library.BusinessLogicLayer
 {
     public partial interface IInternshipClassBusiness
     {

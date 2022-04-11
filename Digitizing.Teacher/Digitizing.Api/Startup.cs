@@ -39,7 +39,9 @@ namespace Digitizing.Api.Cms
             services.AddTransient<IDatabaseHelper, DatabaseHelper>();
 
 			services.AddTransient<IWebsiteTagBusiness, WebsiteTagBusiness>();
-			services.AddTransient<IWebsiteTagRepository,WebsiteTagRepository>();
+			services.AddTransient<IWebsiteTagRepository,WebsiteTagRepository>(); 
+            services.AddTransient<IInternshipClassBusiness, InternshipClassBusiness>();
+            services.AddTransient<IInternshipClassRepository, InternshipClassRepository>();
 
             services.AddSwaggerGen(c =>
             {

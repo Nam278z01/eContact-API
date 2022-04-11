@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.DataAccessLayer.Interfaces
+namespace Library.DataAccessLayer
 {
     public partial interface IInternshipClassRepository
     {
