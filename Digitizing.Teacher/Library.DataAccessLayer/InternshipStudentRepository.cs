@@ -7,10 +7,10 @@ using Library.DataAccessLayer;
 
 namespace Library.DataAccessLayer
 {
-    public partial class InternshipClassRepository : IInternshipClassRepository
+    public partial class InternshipStudentRepository : IInternshipStudentRepository
     {
         private IDatabaseHelper _dbHelper;
-        public InternshipClassRepository(IDatabaseHelper dbHelper)
+        public InternshipStudentRepository(IDatabaseHelper dbHelper)
         {
             _dbHelper = dbHelper;
         }
@@ -22,8 +22,8 @@ namespace Library.DataAccessLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<InternshipClassSearchModel> Search(int pageIndex, int pageSize, string class_id_rcd,
-            string academic_year, int semester, string internship_id_rcd, out long total)
+        public List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize, string class_id_rcd,
+             out long total)
         {
             total = 0;
             try
@@ -33,14 +33,11 @@ namespace Library.DataAccessLayer
                     _dbHelper.CreateInParameter("@page_index", DbType.Int32, pageIndex),
                     _dbHelper.CreateInParameter("@page_size", DbType.Int32,  pageSize),
                     _dbHelper.CreateInParameter("@class_id_rcd", DbType.String,  class_id_rcd),
-                    _dbHelper.CreateInParameter("@academic_year", DbType.String,  academic_year),
-                    _dbHelper.CreateInParameter("@semester", DbType.Int32,  semester),
-                    _dbHelper.CreateInParameter("@internship_id_rcd", DbType.String,  internship_id_rcd),
                     _dbHelper.CreateOutParameter("@OUT_TOTAL_ROW", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<InternshipClassSearchModel>("dbo.teacher_internship_class_search", parameters);
+                var result = _dbHelper.CallToList<InternshipStudentSearchModel>("dbo.teacher_internship_student_search", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                     throw new Exception(result.ErrorMessage);
 
@@ -58,28 +55,28 @@ namespace Library.DataAccessLayer
         /// </summary>
         /// <param name="id">Id used to get the information</param>
         /// <returns></returns>
-        public InternshipClassSearchModel GetById(string id)
-        {
-            try
-            {
-                var parameters = new List<IDbDataParameter>
-                {
-                    _dbHelper.CreateInParameter("@internship_class_id",DbType.String, id),
-                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
-                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
-                };
-                var result = _dbHelper.CallToFirstOrDefault<InternshipClassSearchModel>("dbo.leader_internship_class_get_by_id", parameters);
-                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
-                {
-                    throw new Exception(result.ErrorMessage);
-                }
-                return result.Value;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public InternshipStudentSearchModel GetById(string id)
+        //{
+        //    try
+        //    {
+        //        var parameters = new List<IDbDataParameter>
+        //        {
+        //            _dbHelper.CreateInParameter("@internship_class_id",DbType.String, id),
+        //            _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+        //            _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+        //        };
+        //        var result = _dbHelper.CallToFirstOrDefault<InternshipStudentSearchModel>("dbo.leader_internship_class_get_by_id", parameters);
+        //        if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+        //        {
+        //            throw new Exception(result.ErrorMessage);
+        //        }
+        //        return result.Value;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         /// <summary>
         /// Get information from the table WebsiteTag and push it into a list of type DropdownOptionModel
@@ -113,26 +110,26 @@ namespace Library.DataAccessLayer
         /// </summary>
         /// <param name="lang">Language used to display data</param> 
         /// <returns></returns>
-        public List<DropdownOptionModel> GetInternshipListDropdown()
-        {
-            try
-            {
-                var parameters = new List<IDbDataParameter>
-                {
-                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
-                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
-                };
-                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.internship_get_list_dropdown", parameters);
-                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
-                {
-                    throw new Exception(result.ErrorMessage);
-                }
-                return result.Value;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public List<DropdownOptionModel> GetInternshipListDropdown()
+        //{
+        //    try
+        //    {
+        //        var parameters = new List<IDbDataParameter>
+        //        {
+        //            _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+        //            _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+        //        };
+        //        var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.internship_get_list_dropdown", parameters);
+        //        if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+        //        {
+        //            throw new Exception(result.ErrorMessage);
+        //        }
+        //        return result.Value;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }

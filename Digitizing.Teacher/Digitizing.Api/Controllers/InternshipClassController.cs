@@ -15,7 +15,7 @@ using System.Data;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Digitizing.Api.Cms.Controllers;
-using Library.BusinessLogicLayer.Interfaces;
+//using Library.BusinessLogicLayer;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
