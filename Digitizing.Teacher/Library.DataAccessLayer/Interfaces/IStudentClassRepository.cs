@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.BusinessLogicLayer
+namespace Library.DataAccessLayer
 {
-    public partial interface IInternshipStudentBusiness
+    public partial interface IStudentClassRepository
     {
-        List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize, string class_id_rcd,
-            //string company_name, string course_year,
-            out long total);
+        List<StudentClassModel> Search(int pageIndex, int pageSize, string class_id,
+             string student_name,
+             out long total);
         //InternshipClassSearchModel GetById(string id);
         List<DropdownOptionModel> GetClassListDropdown();
         //List<DropdownOptionModel> GetInternshipListDropdown();

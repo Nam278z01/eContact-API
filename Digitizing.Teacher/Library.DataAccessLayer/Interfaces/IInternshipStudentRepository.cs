@@ -10,6 +10,7 @@ namespace Library.DataAccessLayer
     public partial interface IInternshipStudentRepository
     {
         List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize, string class_id_rcd,
+           // string company_name, string course_year,
              out long total);
         //InternshipClassSearchModel GetById(string id);
         List<DropdownOptionModel> GetClassListDropdown();

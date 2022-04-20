@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Library.BusinessLogicLayer
 {
-    public partial class InternshipStudentBusiness : IInternshipStudentBusiness
+    public partial class StudentClassBusiness : IStudentClassBusiness
     {
-        private IInternshipStudentRepository _res;
-        public InternshipStudentBusiness(IInternshipStudentRepository res)
+        private IStudentClassRepository _res;
+        public StudentClassBusiness(IStudentClassRepository res)
         {
             _res = res;
         }
@@ -26,13 +26,11 @@ namespace Library.BusinessLogicLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize, string class_id_rcd,
-            //string company_name, string course_year,
+        public List<StudentClassModel> Search(int pageIndex, int pageSize, string class_id,
+             string student_name,
              out long total)
         {
-            return _res.Search(pageIndex, pageSize, class_id_rcd,
-                //company_name, course_year,
-                 out total);
+            return _res.Search(pageIndex, pageSize, class_id,student_name, out total);
         }
         /// <summary>
         /// Get the information by using id of the table WebsiteTag

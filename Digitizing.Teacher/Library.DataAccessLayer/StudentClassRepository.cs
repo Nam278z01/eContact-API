@@ -7,10 +7,10 @@ using Library.DataAccessLayer;
 
 namespace Library.DataAccessLayer
 {
-    public partial class InternshipStudentRepository : IInternshipStudentRepository
+    public partial class StudentClassRepository : IStudentClassRepository
     {
         private IDatabaseHelper _dbHelper;
-        public InternshipStudentRepository(IDatabaseHelper dbHelper)
+        public StudentClassRepository(IDatabaseHelper dbHelper)
         {
             _dbHelper = dbHelper;
         }
@@ -22,9 +22,7 @@ namespace Library.DataAccessLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize, string class_id_rcd,
-            //string company_name, string course_year,
-             out long total)
+        public List<StudentClassModel> Search(int pageIndex, int pageSize, string class_id, string student_name,out long total)
         {
             total = 0;
             try
@@ -33,14 +31,13 @@ namespace Library.DataAccessLayer
                 {
                     _dbHelper.CreateInParameter("@page_index", DbType.Int32, pageIndex),
                     _dbHelper.CreateInParameter("@page_size", DbType.Int32,  pageSize),
-                    _dbHelper.CreateInParameter("@class_id_rcd", DbType.String,  class_id_rcd),
-                    //_dbHelper.CreateInParameter("@company_name", DbType.String,  class_id_rcd),
-                    //_dbHelper.CreateInParameter("@course_year", DbType.String,  class_id_rcd),
+                    _dbHelper.CreateInParameter("@class_id", DbType.String,  class_id),
+                    _dbHelper.CreateInParameter("@student_name", DbType.String,  student_name),
                     _dbHelper.CreateOutParameter("@OUT_TOTAL_ROW", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<InternshipStudentSearchModel>("dbo.teacher_internship_student_search", parameters);
+                var result = _dbHelper.CallToList<StudentClassModel>("dbo.teacher_student_class_search", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                     throw new Exception(result.ErrorMessage);
 

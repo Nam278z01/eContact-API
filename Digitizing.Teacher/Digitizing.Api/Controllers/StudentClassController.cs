@@ -21,34 +21,32 @@ using Digitizing.Api.Cms.Controllers;
 
 namespace Digitizing.Api.Controllers
 {
-    [Route("api/internship-student")]
+    [Route("api/student-class")]
     [ApiController]
-    public class InternshipStudentController : BaseController
+    public class StudentClassController : BaseController
     {
         private IWebHostEnvironment _env;
-        private IInternshipStudentBusiness _internshipClassBUS;
-        public InternshipStudentController(ICacheProvider redis, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env, IInternshipStudentBusiness internshipStudentBUS) : base((Library.Common.Caching.ICacheProvider)redis, configuration, httpContextAccessor)
+        private IStudentClassBusiness _internshipClassBUS;
+        public StudentClassController(ICacheProvider redis, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env, IStudentClassBusiness StudentClassBUS) : base((Library.Common.Caching.ICacheProvider)redis, configuration, httpContextAccessor)
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
-            _internshipClassBUS = internshipStudentBUS;
+            _internshipClassBUS = StudentClassBUS;
         }
 
         [Route("search")]
         [HttpPost]
-        public async Task<ResponseListMessage<List<InternshipStudentSearchModel>>> Search([FromBody] Dictionary<string, object> formData)
+        public async Task<ResponseListMessage<List<StudentClassModel>>> Search([FromBody] Dictionary<string, object> formData)
         {
-            var response = new ResponseListMessage<List<InternshipStudentSearchModel>>();
+            var response = new ResponseListMessage<List<StudentClassModel>>();
             try
             {
                 var page = int.Parse(formData["page"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
-                var class_id_rcd = formData.Keys.Contains("class_id_rcd") ? Convert.ToString(formData["class_id_rcd"]) : "";
-                //var company_name = formData.Keys.Contains("company_name") ? Convert.ToString(formData["company_name"]) : "";
+                var class_id = formData.Keys.Contains("class_id_rcd") ? Convert.ToString(formData["class_id_rcd"]) : "";
+                var student_name = formData.Keys.Contains("student_name") ? Convert.ToString(formData["student_name"]) : "";
                 //var course_year = formData.Keys.Contains("course_year") ? Convert.ToString(formData["course_year"]): "";
                 long total = 0;
-                var data = await Task.FromResult(_internshipClassBUS.Search(page, pageSize, class_id_rcd,
-                    //company_name, course_year,
-                    out total));
+                var data = await Task.FromResult(_internshipClassBUS.Search(page, pageSize, class_id, student_name, out total));
                 response.TotalItems = total;
                 response.Data = data;
                 response.Page = page;
