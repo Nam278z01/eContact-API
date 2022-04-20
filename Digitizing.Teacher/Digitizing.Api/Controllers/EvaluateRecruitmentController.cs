@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Digitizing.Api.Cms.Controllers
 {
-    [Route("api/website-tag")]
+    [Route("api/Evaluate-Recruitment")]
     public class EvaluateRecruitmentController : BaseController
     {
         private IWebHostEnvironment _env;
@@ -28,7 +28,7 @@ namespace Digitizing.Api.Cms.Controllers
             _EvaluateRecruitmentBUS = EvaluateRecruitmentBUS;
         }
 
-        [Route("create-website-tag")]
+        [Route("create")]
         [HttpPost]
         public async Task<ResponseMessage<EvaluateRecruitmentModel>> CreateEvaluateRecruitment([FromBody] EvaluateRecruitmentModel model)
         {
@@ -55,7 +55,7 @@ namespace Digitizing.Api.Cms.Controllers
             return response;
         }
 
-        [Route("update-website-tag")]
+        [Route("update")]
         [HttpPost]
         public async Task<ResponseMessage<EvaluateRecruitmentModel>> UpdateEvaluateRecruitment([FromBody] EvaluateRecruitmentModel model)
         {

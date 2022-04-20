@@ -18,5 +18,6 @@ namespace Library.DataModel
         public string student_email { get; set; }
         public string company_name { get; set; }
         public string course_year { get; set; }
+        public string evaluate_recruitment_rcd { get; set; }
     }
 }

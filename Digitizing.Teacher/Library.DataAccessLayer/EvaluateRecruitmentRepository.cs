@@ -64,7 +64,7 @@ namespace Library.DataAccessLayer
 
                 var parameters = new List<IDbDataParameter>
                 {
-                    _dbHelper.CreateInParameter("@evaluate_recruitment_rcd",DbType.Guid,model.evaluate_recruitment_rcd),
+                    _dbHelper.CreateInParameter("@evaluate_recruitment_rcd",DbType.String,model.evaluate_recruitment_rcd),
                     _dbHelper.CreateInParameter("@student_rcd",DbType.String,model.student_rcd),
                     _dbHelper.CreateInParameter("@point",DbType.Double,model.point),
                     _dbHelper.CreateInParameter("@academic_year",DbType.String,model.academic_year),
@@ -143,7 +143,7 @@ namespace Library.DataAccessLayer
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
                 var result = _dbHelper.CallToFirstOrDefault<EvaluateRecruitmentModel>("dbo.teacher_evaluate_recruitment_get_by_id", parameters);
-                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                if (!string.IsNullOrEmpty(result.ErrorMessage) || result.ErrorCode != 0)
                 {
                     throw new Exception(result.ErrorMessage);
                 }
