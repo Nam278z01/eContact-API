@@ -39,7 +39,7 @@ namespace Library.DataAccessLayer
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<ReportRecruitmentModel>("dbo.teacher_recruitment_report", parameters);
+                var result = _dbHelper.CallToList<ReportRecruitmentModel>("dbo.teacher_recruitment_report_search", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                     throw new Exception(result.ErrorMessage);
 
