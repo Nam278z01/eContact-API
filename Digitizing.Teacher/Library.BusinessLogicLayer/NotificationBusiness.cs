@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Library.BusinessLogicLayer
 {
-    public partial class StudentClassBusiness : IStudentClassBusiness
+    public partial class NotificationBusiness : INotificationBusiness
     {
-        private IStudentClassRepository _res;
-        public StudentClassBusiness(IStudentClassRepository res)
+        private INotificationRepository _res;
+        public NotificationBusiness(INotificationRepository res)
         {
             _res = res;
         }
@@ -26,7 +26,7 @@ namespace Library.BusinessLogicLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<StudentClassModel> Search(int pageIndex, int pageSize, string class_id,
+        public List<NotificationModel> Search(int pageIndex, int pageSize, string class_id,
              string student_name,
              out long total)
         {
@@ -48,20 +48,20 @@ namespace Library.BusinessLogicLayer
         /// </summary>
         /// <param name="model">the record added </param>
         /// <returns></returns>
-        public bool Update(StudentClassModel model)
-        {
-            return _res.Update(model);
-        }
+        //public bool Update(NotificationModel model)
+        //{
+        //    return _res.Update(model);
+        //}
 
 
         /// <summary>
         /// Get list internship class dropdown
         /// </summary>
         /// <returns></returns>
-        public List<DropdownOptionModel> GetClassListDropdown()
-        {
-            return _res.GetClassListDropdown();
-        }
+        //public List<DropdownOptionModel> GetClassListDropdown()
+        //{
+        //    return _res.GetClassListDropdown();
+        //}
         /// <summary>
         /// Get list internship class dropdown
         /// </summary>

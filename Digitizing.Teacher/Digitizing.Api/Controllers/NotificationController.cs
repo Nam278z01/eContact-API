@@ -21,29 +21,29 @@ using Digitizing.Api.Cms.Controllers;
 
 namespace Digitizing.Api.Controllers
 {
-    [Route("api/student-class")]
+    [Route("api/notification")]
     [ApiController]
-    public class StudentClassController : BaseController
+    public class NotificationController : BaseController
     {
         private IWebHostEnvironment _env;
-        private IStudentClassBusiness _internshipClassBUS;
-        public StudentClassController(ICacheProvider redis, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env, IStudentClassBusiness StudentClassBUS) : base((Library.Common.Caching.ICacheProvider)redis, configuration, httpContextAccessor)
+        private INotificationBusiness _internshipClassBUS;
+        public NotificationController(ICacheProvider redis, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env, INotificationBusiness NotificationBUS) : base((Library.Common.Caching.ICacheProvider)redis, configuration, httpContextAccessor)
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
-            _internshipClassBUS = StudentClassBUS;
+            _internshipClassBUS = NotificationBUS;
         }
 
         [Route("search")]
         [HttpPost]
-        public async Task<ResponseListMessage<List<StudentClassModel>>> Search([FromBody] Dictionary<string, object> formData)
+        public async Task<ResponseListMessage<List<NotificationModel>>> Search([FromBody] Dictionary<string, object> formData)
         {
-            var response = new ResponseListMessage<List<StudentClassModel>>();
+            var response = new ResponseListMessage<List<NotificationModel>>();
             try
             {
                 var page = int.Parse(formData["page"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
-                var class_id = formData.Keys.Contains("class_id_rcd") ? Convert.ToString(formData["class_id_rcd"]) : "";
-                var student_name = formData.Keys.Contains("student_name") ? Convert.ToString(formData["student_name"]) : "";
+                var class_id = formData.Keys.Contains("class_id_rcd") ? Convert.ToString(formData["notification_type_id"]) : "";
+                var student_name = formData.Keys.Contains("student_name") ? Convert.ToString(formData["notification_name"]) : "";
                 //var course_year = formData.Keys.Contains("course_year") ? Convert.ToString(formData["course_year"]): "";
                 long total = 0;
                 var data = await Task.FromResult(_internshipClassBUS.Search(page, pageSize, class_id, student_name, out total));
@@ -76,47 +76,47 @@ namespace Digitizing.Api.Controllers
         //    return response;
         //}
 
-        [Route("get-class-dropdown")]
-        [HttpGet]
-        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetClassListDropdown()
-        {
-            var response = new ResponseListMessage<List<DropdownOptionModel>>();
-            try
-            {
-                response.Data = await Task.FromResult(_internshipClassBUS.GetClassListDropdown());
-            }
-            catch (Exception ex)
-            {
-                response.MessageCode = ex.Message;
-            }
-            return response;
-        }
+        //[Route("get-class-dropdown")]
+        //[HttpGet]
+        //public async Task<ResponseMessage<List<DropdownOptionModel>>> GetClassListDropdown()
+        //{
+        //    var response = new ResponseListMessage<List<DropdownOptionModel>>();
+        //    try
+        //    {
+        //        response.Data = await Task.FromResult(_internshipClassBUS.GetClassListDropdown());
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.MessageCode = ex.Message;
+        //    }
+        //    return response;
+        //}
 
-        [Route("update")]
-        [HttpPost]
-        public async Task<ResponseMessage<StudentClassModel>> UpdateEvaluateRecruitment([FromBody] StudentClassModel model)
-        {
-            var response = new ResponseMessage<StudentClassModel>();
-            try
-            {
+        //[Route("update")]
+        //[HttpPost]
+        //public async Task<ResponseMessage<NotificationModel>> UpdateEvaluateRecruitment([FromBody] NotificationModel model)
+        //{
+        //    var response = new ResponseMessage<NotificationModel>();
+        //    try
+        //    {
 
-                var resultBUS = await Task.FromResult(_internshipClassBUS.Update(model));
-                if (resultBUS)
-                {
-                    response.Data = model;
-                    response.MessageCode = MessageCodes.UpdateSuccessfully;
-                }
-                else
-                {
-                    response.MessageCode = MessageCodes.UpdateFail;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.MessageCode = ex.Message;
-            }
-            return response;
-        }
+        //        var resultBUS = await Task.FromResult(_internshipClassBUS.Update(model));
+        //        if (resultBUS)
+        //        {
+        //            response.Data = model;
+        //            response.MessageCode = MessageCodes.UpdateSuccessfully;
+        //        }
+        //        else
+        //        {
+        //            response.MessageCode = MessageCodes.UpdateFail;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.MessageCode = ex.Message;
+        //    }
+        //    return response;
+        //}
 
 
 

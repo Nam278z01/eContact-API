@@ -12,8 +12,10 @@ namespace Library.DataAccessLayer
         List<StudentClassModel> Search(int pageIndex, int pageSize, string class_id,
              string student_name,
              out long total);
-        //InternshipClassSearchModel GetById(string id);
+        //StudentRefModel GetById(string id);
         List<DropdownOptionModel> GetClassListDropdown();
+        bool Update(StudentClassModel model);
+
         //List<DropdownOptionModel> GetInternshipListDropdown();
     }
 }

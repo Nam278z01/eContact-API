@@ -5,7 +5,7 @@ namespace Library.DataModel
 	//abc
 	public partial class EvaluateRecruitmentModel
 	{
-		public string evaluate_recruitment_rcd { get; set; }
+		public Guid? evaluate_recruitment_rcd { get; set; }
 		public string student_rcd { get; set; }
 		public double point { get; set; }
 		public string academic_year { get; set; }

@@ -50,7 +50,7 @@ namespace Library.BusinessLogicLayer
         /// </summary>
         /// <param name="id">Id used to get the information</param>
         /// <returns></returns>
-        public EvaluateRecruitmentModel GetById(string id)
+        public EvaluateRecruitmentModel GetById(Guid? id)
         {
             var result = _res.GetById(id);
             return result;

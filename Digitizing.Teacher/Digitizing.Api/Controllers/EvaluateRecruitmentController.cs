@@ -109,7 +109,7 @@ namespace Digitizing.Api.Cms.Controllers
 
         [Route("get-by-id/{id}")]
         [HttpGet]
-        public async Task<ResponseMessage<EvaluateRecruitmentModel>> GetById(string id)
+        public async Task<ResponseMessage<EvaluateRecruitmentModel>> GetById(Guid? id)
         {
             var response = new ResponseMessage<EvaluateRecruitmentModel>();
             try

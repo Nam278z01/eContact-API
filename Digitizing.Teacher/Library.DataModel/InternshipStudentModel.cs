@@ -18,6 +18,9 @@ namespace Library.DataModel
         public string student_email { get; set; }
         public string company_name { get; set; }
         public string course_year { get; set; }
-        public string evaluate_recruitment_rcd { get; set; }
+        public Guid? evaluate_recruitment_rcd { get; set; }
+        public double point { get; set; }
+        public string class_id_rcd { get; set; }
+
     }
 }

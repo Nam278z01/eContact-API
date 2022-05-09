@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.BusinessLogicLayer
+namespace Library.DataAccessLayer
 {
-    public partial interface IStudentClassBusiness
+    public partial interface INotificationRepository
     {
-        List<StudentClassModel> Search(int pageIndex, int pageSize, string class_id,
+        List<NotificationModel> Search(int pageIndex, int pageSize, string class_id,
              string student_name,
              out long total);
         //StudentRefModel GetById(string id);
-        List<DropdownOptionModel> GetClassListDropdown();
-        bool Update(StudentClassModel model);
+        ///List<DropdownOptionModel> GetClassListDropdown();
+        //bool Update(StudentClassModel model);
 
         //List<DropdownOptionModel> GetInternshipListDropdown();
     }

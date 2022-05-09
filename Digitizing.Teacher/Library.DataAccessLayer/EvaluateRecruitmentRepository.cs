@@ -23,8 +23,7 @@ namespace Library.DataAccessLayer
         {
             try
             {
-
-                if (model.evaluate_recruitment_rcd == "") model.evaluate_recruitment_rcd = model.student_rcd+model.academic_year.Substring(-2,2);
+                 model.evaluate_recruitment_rcd = Guid.NewGuid();
                 var parameters = new List<IDbDataParameter>
                 {
                     _dbHelper.CreateInParameter("@evaluate_recruitment_rcd",DbType.Guid,model.evaluate_recruitment_rcd),
@@ -132,13 +131,13 @@ namespace Library.DataAccessLayer
         /// </summary>
         /// <param name="id">Id used to get the information</param>
         /// <returns></returns>
-        public EvaluateRecruitmentModel GetById(string id)
+        public EvaluateRecruitmentModel GetById(Guid? id)
         {
             try
             {
                 var parameters = new List<IDbDataParameter>
                 {
-                    _dbHelper.CreateInParameter("@evaluate_recruitment_rcd",DbType.String, id),
+                    _dbHelper.CreateInParameter("@evaluate_recruitment_rcd",DbType.Guid, id),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
