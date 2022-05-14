@@ -169,6 +169,30 @@ namespace Library.DataAccessLayer
             }
         }
 
+        public List<ScientificResearchModel> Delete(string json_list_id, Guid updated_by)
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@json_list_id", DbType.String, json_list_id),
+                    _dbHelper.CreateInParameter("@lu_user_id", DbType.Guid, updated_by),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<ScientificResearchModel>("dbo.teacher_scientific_research_delete_multi", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         /// <summary>
         /// Get information from the table WebsiteTag and push it into a list of type DropdownOptionModel
         /// </summary>

@@ -14,6 +14,7 @@ namespace Library.BusinessLogicLayer
         ScientificResearchModel GetById(string id);
         List<ScientificResearchSearchModel> Search(int pageIndex, int pageSize, string category_type_id,
             string student_id, string teacher_id, string research_project_name, string content, string rate_id, string rank, out long total);
+        List<ScientificResearchModel> Delete(string json_list_id, Guid updated_by);
         List<DropdownOptionModel> GetCategoryListDropdown();
         List<DropdownOptionModel> GetStudentListDropdown();
         List<DropdownOptionModel> GetTeacherListDropdown();

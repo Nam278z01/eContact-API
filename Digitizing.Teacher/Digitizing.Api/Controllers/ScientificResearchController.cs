@@ -134,6 +134,26 @@ namespace Digitizing.Api.Controllers
             return response;
         }
 
+        [Route("delete")]
+        [HttpPost]
+        public async Task<ResponseListMessage<bool>> Delete([FromBody] List<string> items)
+        {
+            var response = new ResponseListMessage<bool>();
+            try
+            {
+                var json_list_id = MessageConvert.SerializeObject(items.Select(ds => new { scientific_research_id = ds }).ToList());
+                var listItem = await Task.FromResult(_scientificResearchBUS.Delete(json_list_id, CurrentUserId));
+                response.Data = listItem != null;
+                response.MessageCode = MessageCodes.DeleteSuccessfully;
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+
+
         [Route("get-category-dropdown")]
         [HttpGet]
         public async Task<ResponseMessage<List<DropdownOptionModel>>> GetCategoryListDropdown()

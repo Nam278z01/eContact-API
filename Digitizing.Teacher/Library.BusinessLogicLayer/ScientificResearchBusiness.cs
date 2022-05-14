@@ -46,6 +46,10 @@ namespace Library.BusinessLogicLayer
                 rank, out total);
         }
 
+        public List<ScientificResearchModel> Delete(string json_list_id, Guid updated_by)
+        {
+            return _res.Delete(json_list_id, updated_by);
+        }
         /// <summary>
         /// Get list internship class dropdown
         /// </summary>
