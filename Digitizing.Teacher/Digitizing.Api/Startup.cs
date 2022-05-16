@@ -52,6 +52,8 @@ namespace Digitizing.Api.Cms
             services.AddTransient<IReportRecruitmentBusiness, ReportRecruitmentBusiness>();
             services.AddTransient<IScientificResearchRepository, ScientificResearchRepository>();
             services.AddTransient<IScientificResearchBusiness, ScientificResearchBusiness>();
+            services.AddTransient<IStudentProjectRegisterRepository, StudentProjectRegisterRepository>();
+            services.AddTransient<IStudentProjectRegisterBusiness, StudentProjectRegisterBusiness>();
 
             services.AddSwaggerGen(c =>
             {
