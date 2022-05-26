@@ -43,11 +43,11 @@ namespace Digitizing.Api.Controllers
                 var page = int.Parse(formData["page"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 var class_id_rcd = formData.Keys.Contains("class_id_rcd") ? Convert.ToString(formData["class_id_rcd"]) : "";
-                //var company_name = formData.Keys.Contains("company_name") ? Convert.ToString(formData["company_name"]) : "";
-                //var course_year = formData.Keys.Contains("course_year") ? Convert.ToString(formData["course_year"]): "";
+                var school_year = formData.Keys.Contains("school_year") ? Convert.ToString(formData["school_year"]) : "";
+                var course_year = formData.Keys.Contains("course_year") ? Convert.ToString(formData["course_year"]): "";
                 long total = 0;
                 var data = await Task.FromResult(_internshipClassBUS.Search(page, pageSize, class_id_rcd,
-                    //company_name, course_year,
+                    school_year, course_year,
                     out total));
                 response.TotalItems = total;
                 response.Data = data;

@@ -21,6 +21,6 @@ namespace Library.DataModel
         public Guid? evaluate_recruitment_rcd { get; set; }
         public double point { get; set; }
         public string class_id_rcd { get; set; }
-
+        public string school_year { get; set; }
     }
 }

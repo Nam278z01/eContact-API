@@ -63,7 +63,7 @@ namespace Library.DataAccessLayer
 
                 var parameters = new List<IDbDataParameter>
                 {
-                    _dbHelper.CreateInParameter("@evaluate_recruitment_rcd",DbType.String,model.evaluate_recruitment_rcd),
+                    _dbHelper.CreateInParameter("@evaluate_recruitment_rcd",DbType.Guid,model.evaluate_recruitment_rcd),
                     _dbHelper.CreateInParameter("@student_rcd",DbType.String,model.student_rcd),
                     _dbHelper.CreateInParameter("@point",DbType.Double,model.point),
                     _dbHelper.CreateInParameter("@academic_year",DbType.String,model.academic_year),
