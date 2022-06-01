@@ -14,6 +14,7 @@ namespace Library.DataAccessLayer
              out long total);
         //InternshipClassSearchModel GetById(string id);
         List<DropdownOptionModel> GetClassListDropdown();
-        //List<DropdownOptionModel> GetInternshipListDropdown();
+        List<DropdownOptionModel> GetCourseYearListDropdown();
+        List<DropdownOptionModel> GetSchoolYearListDropdown();
     }
 }

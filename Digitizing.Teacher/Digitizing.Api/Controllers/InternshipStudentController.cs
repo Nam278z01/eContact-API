@@ -93,7 +93,36 @@ namespace Digitizing.Api.Controllers
             }
             return response;
         }
-
+        [Route("get-course-year-list-drop-down")]
+        [HttpGet]
+        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetCourseYearListDropdown()
+        {
+            var response = new ResponseListMessage<List<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_internshipClassBUS.GetCourseYearListDropdown());
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+        [Route("get-school-year-list-drop-down")]
+        [HttpGet]
+        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetSchoolYearListDropdown()
+        {
+            var response = new ResponseListMessage<List<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_internshipClassBUS.GetSchoolYearListDropdown());
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
         //[Route("get-internship-dropdown")]
         //[HttpGet]
         //public async Task<ResponseMessage<List<DropdownOptionModel>>> GetInternshipListDropdown()

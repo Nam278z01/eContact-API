@@ -108,6 +108,52 @@ namespace Library.DataAccessLayer
             }
         }
 
+        public List<DropdownOptionModel> GetCourseYearListDropdown()
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@prev", DbType.Int32,5),
+                    _dbHelper.CreateInParameter("@next", DbType.Int32, 1),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.course_year_get_list_dropdown", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<DropdownOptionModel> GetSchoolYearListDropdown()
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.school_year_get_list_dropdown", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         /// <summary>
         /// Get information from the table WebsiteTag and push it into a list of type DropdownOptionModel
         /// </summary>

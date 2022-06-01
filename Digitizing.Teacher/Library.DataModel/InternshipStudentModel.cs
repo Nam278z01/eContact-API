@@ -20,6 +20,7 @@ namespace Library.DataModel
         public string course_year { get; set; }
         public Guid? evaluate_recruitment_rcd { get; set; }
         public double point { get; set; }
+        public double sumpoint { get; set; }
         public string class_id_rcd { get; set; }
         public string school_year { get; set; }
     }

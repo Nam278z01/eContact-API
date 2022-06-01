@@ -52,6 +52,14 @@ namespace Library.BusinessLogicLayer
         {
             return _res.GetClassListDropdown();
         }
+        public List<DropdownOptionModel> GetCourseYearListDropdown()
+        {
+            return _res.GetCourseYearListDropdown();
+        }
+        public List<DropdownOptionModel> GetSchoolYearListDropdown()
+        {
+            return _res.GetSchoolYearListDropdown();
+        }
         /// <summary>
         /// Get list internship class dropdown
         /// </summary>
