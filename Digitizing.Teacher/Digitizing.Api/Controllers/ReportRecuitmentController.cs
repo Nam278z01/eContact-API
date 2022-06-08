@@ -34,9 +34,9 @@ namespace Digitizing.Api.Controllers
 
         [Route("search")]
         [HttpPost]
-        public async Task<ResponseListMessage<List<ReportRecruitmentModel>>> Search([FromBody] Dictionary<string, object> formData)
+        public async Task<ResponseListMessage<List<RecruitmentReportSearchModel>>> Search([FromBody] Dictionary<string, object> formData)
         {
-            var response = new ResponseListMessage<List<ReportRecruitmentModel>>();
+            var response = new ResponseListMessage<List<RecruitmentReportSearchModel>>();
             try
             {
                 var page = int.Parse(formData["page"].ToString());
@@ -44,10 +44,11 @@ namespace Digitizing.Api.Controllers
                 var class_id = formData.Keys.Contains("class_id") ? Convert.ToString(formData["class_id"]) : "";
                 var student_rcd = formData.Keys.Contains("student_rcd") ? Convert.ToString(formData["student_rcd"]) : "";
                 var student_name = formData.Keys.Contains("student_name") ? Convert.ToString(formData["student_name"]) : "";
-                var report_week_rcd = formData.Keys.Contains("report_week_rcd") ? Convert.ToInt32(Convert.ToString(formData["report_week_rcd"])) : 1;
+                var report_week = formData.Keys.Contains("report_week") ? Convert.ToInt32(Convert.ToString(formData["report_week"])) : 1;
+                var academic_year = formData.Keys.Contains("academic_year") ? Convert.ToString(formData["academic_year"]) : "";
                 long total = 0;
                 var data = await Task.FromResult(_reportRecruitmentClassBUS.Search(page, pageSize, class_id,
-                     student_rcd, student_name, report_week_rcd, out total));
+                     student_rcd, student_name, academic_year, report_week, out total));
                 response.TotalItems = total;
                 response.Data = data;
                 response.Page = page;
@@ -63,17 +64,17 @@ namespace Digitizing.Api.Controllers
 
         [Route("search-report")]
         [HttpPost]
-        public async Task<ResponseMessage<List<RecruitmentReportWeeklyModel>>> SearchReport([FromBody] Dictionary<string, object> formData)
+        public async Task<ResponseMessage<List<RecruitmentReportModel>>> SearchReport([FromBody] Dictionary<string, object> formData)
         {
 
-            var response = new ResponseListMessage<List<RecruitmentReportWeeklyModel>>();
+            var response = new ResponseListMessage<List<RecruitmentReportModel>>();
             try
             {
                 var page = 1;
                 var pageSize = 10;
                 var student_rcd = formData.Keys.Contains("student_rcd") ? Convert.ToString(formData["student_rcd"]) : "";
            
-                var report_week_rcd = formData.Keys.Contains("report_week_rcd") ? Convert.ToInt32(Convert.ToString(formData["report_week_rcd"])) : 1;
+                var report_week_rcd = formData.Keys.Contains("report_week") ? Convert.ToInt32(Convert.ToString(formData["report_week"])) : 1;
                 long total = 0;
                 var data = await Task.FromResult(_reportRecruitmentClassBUS.GetReportDetail(page, pageSize, student_rcd,
                      report_week_rcd, out total));

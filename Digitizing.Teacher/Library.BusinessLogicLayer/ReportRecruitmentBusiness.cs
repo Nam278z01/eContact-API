@@ -24,22 +24,22 @@ namespace Library.BusinessLogicLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<ReportRecruitmentModel> Search(int pageIndex, int pageSize, string class_id,
-            string student_rcd, string student_name, int report_week_rcd, out long total)
+        public List<RecruitmentReportSearchModel> Search(int pageIndex, int pageSize, string class_id,
+            string student_rcd, string student_name, string academic_year, int report_week, out long total)
         {
             return _res.Search(pageIndex, pageSize, class_id, student_rcd,
-            student_name, report_week_rcd, out total);
+            student_name, academic_year, report_week, out total);
         }
         /// <summary>
         /// Get the information by using id of the table WebsiteTag
         /// </summary>
         /// <param name="id">Id used to get the information</param>
         /// <returns></returns>
-        public List<RecruitmentReportWeeklyModel> GetReportDetail(int page, int pageSize, string student_rcd,
-                     int report_week_rcd, out long total)
+        public List<RecruitmentReportModel> GetReportDetail(int page, int pageSize, string student_rcd,
+                     int report_week, out long total)
         {
             var result = _res.GetReportDetail(page, pageSize, student_rcd,
-                     report_week_rcd, out total);
+                     report_week, out total);
             return result;
         }
         /// <summary>

@@ -21,8 +21,8 @@ namespace Library.DataAccessLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<ReportRecruitmentModel> Search(int pageIndex, int pageSize, string class_id,
-            string student_rcd, string student_name, int report_week_rcd, out long total)
+        public List<RecruitmentReportSearchModel> Search(int pageIndex, int pageSize, string class_id,
+            string student_rcd, string student_name, string academic_year, int report_week, out long total)
         {
             total = 0;
             try
@@ -33,13 +33,14 @@ namespace Library.DataAccessLayer
                     _dbHelper.CreateInParameter("@pageSize", DbType.Int32,  pageSize),
                     _dbHelper.CreateInParameter("@class_id", DbType.String,  class_id),
                     _dbHelper.CreateInParameter("@student_rcd", DbType.String,  student_rcd),
-                    _dbHelper.CreateInParameter("@report_week_rcd", DbType.Int32,  report_week_rcd),
+                    _dbHelper.CreateInParameter("@report_week", DbType.Int32,  report_week),
                     _dbHelper.CreateInParameter("@student_name", DbType.String,  student_name),
+                    _dbHelper.CreateInParameter("@academic_year", DbType.String,  academic_year),
                     _dbHelper.CreateOutParameter("@OUT_TOTAL_ROW", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<ReportRecruitmentModel>("dbo.teacher_recruitment_report_search", parameters);
+                var result = _dbHelper.CallToList<RecruitmentReportSearchModel>("dbo.teacher_recruitment_report_search", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                     throw new Exception(result.ErrorMessage);
 
@@ -57,23 +58,23 @@ namespace Library.DataAccessLayer
         /// </summary>
         /// <param name="id">Id used to get the information</param>
         /// <returns></returns>
-        public List<RecruitmentReportWeeklyModel> GetReportDetail(int page, int pageSize, string student_rcd,
-                     int report_week_rcd, out long total)
+        public List<RecruitmentReportModel> GetReportDetail(int page, int pageSize, string student_rcd,
+                     int report_week, out long total)
         {
             total = 0;
             try
             {
                 var parameters = new List<IDbDataParameter>
                 {
-                    _dbHelper.CreateInParameter("@page_index",DbType.Int32, 1),
-                    _dbHelper.CreateInParameter("@page_size",DbType.Int32, 10),
+                    _dbHelper.CreateInParameter("@page_index",DbType.Int32, page),
+                    _dbHelper.CreateInParameter("@page_size",DbType.Int32, pageSize),
                     _dbHelper.CreateInParameter("@student_rcd",DbType.String, student_rcd),
-                    _dbHelper.CreateInParameter("@report_week_rcd",DbType.Int32, report_week_rcd),
+                    _dbHelper.CreateInParameter("@report_week",DbType.Int32, report_week),
                     _dbHelper.CreateOutParameter("@OUT_TOTAL_ROW", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<RecruitmentReportWeeklyModel>("dbo.student_recruitment_report_search", parameters);
+                var result = _dbHelper.CallToList<RecruitmentReportModel>("dbo.student_recruitment_report_search", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                     throw new Exception(result.ErrorMessage);
                 if (result.Output["OUT_TOTAL_ROW"] + "" != "")
