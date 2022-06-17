@@ -27,6 +27,7 @@ namespace Library.DataModel
       public string student_rcd { get; set; }  
       public string student_name { get; set; }
       public int report_week { get; set; }
+      public int number_of_weeks { get; set; }
       public string class_id { get; set; }
       public int progress { get; set; }
       public string academic_year { get; set; }
