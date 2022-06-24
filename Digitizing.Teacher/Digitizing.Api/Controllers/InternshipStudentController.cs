@@ -27,10 +27,12 @@ namespace Digitizing.Api.Controllers
     {
         private IWebHostEnvironment _env;
         private IInternshipStudentBusiness _internshipClassBUS;
-        public InternshipStudentController(ICacheProvider redis, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env, IInternshipStudentBusiness internshipStudentBUS) : base((Library.Common.Caching.ICacheProvider)redis, configuration, httpContextAccessor)
+        private IReportRecruitmentBusiness _reportRecruitmentClassBUS;
+        public InternshipStudentController(ICacheProvider redis, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env, IInternshipStudentBusiness internshipStudentBUS, IReportRecruitmentBusiness reportRecruitmentBUS) : base((Library.Common.Caching.ICacheProvider)redis, configuration, httpContextAccessor)
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
             _internshipClassBUS = internshipStudentBUS;
+            _reportRecruitmentClassBUS = reportRecruitmentBUS;
         }
 
         [Route("search")]
@@ -123,21 +125,35 @@ namespace Digitizing.Api.Controllers
             }
             return response;
         }
-        //[Route("get-internship-dropdown")]
-        //[HttpGet]
-        //public async Task<ResponseMessage<List<DropdownOptionModel>>> GetInternshipListDropdown()
-        //{
-        //    var response = new ResponseListMessage<List<DropdownOptionModel>>();
-        //    try
-        //    {
-        //        response.Data = await Task.FromResult(_internshipClassBUS.GetInternshipListDropdown());
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        response.MessageCode = ex.Message;
-        //    }
-        //    return response;
-        //}
 
+        [Route("search-Report")]
+        [HttpPost]
+        public async Task<ResponseListMessage<List<RecruitmentReportSearchModel>>> SearchReport([FromBody] Dictionary<string, object> formData)
+        {
+            var response = new ResponseListMessage<List<RecruitmentReportSearchModel>>();
+            try
+            {
+                var page = 1;
+                var pageSize = 10;
+                var class_id = formData.Keys.Contains("class_id_rcd") ? Convert.ToString(formData["class_id_rcd"]) : "";
+                var student_rcd = formData.Keys.Contains("student_rcd") ? Convert.ToString(formData["student_rcd"]) : "";
+                var student_name = formData.Keys.Contains("student_name") ? Convert.ToString(formData["student_name"]) : "";
+                var report_week = formData.Keys.Contains("report_week") ? Convert.ToInt32(Convert.ToString(formData["report_week"])) : 0;
+                var academic_year = formData.Keys.Contains("course_year") ? Convert.ToString(formData["course_year"]) : "";
+                long total = 0;
+                var data = await Task.FromResult(_reportRecruitmentClassBUS.Search(page, pageSize, class_id,
+                     student_rcd, student_name, academic_year, report_week, out total));
+                response.TotalItems = total;
+                response.Data = data;
+                response.Page = page;
+                response.PageSize = pageSize;
+
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
     }
 }

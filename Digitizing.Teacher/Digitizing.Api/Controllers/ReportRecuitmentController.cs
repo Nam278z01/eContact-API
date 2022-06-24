@@ -53,7 +53,6 @@ namespace Digitizing.Api.Controllers
                 response.Data = data;
                 response.Page = page;
                 response.PageSize = pageSize;
-
             }
             catch (Exception ex)
             {
