@@ -26,11 +26,11 @@ namespace Library.BusinessLogicLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<StudentClassModel> Search(int pageIndex, int pageSize, string class_id,
+        public List<StudentClassModel> Search(int pageIndex, int pageSize, string user_id, string class_id,
              string student_name,
              out long total)
         {
-            return _res.Search(pageIndex, pageSize, class_id,student_name, out total);
+            return _res.Search(pageIndex, pageSize, user_id, class_id, student_name, out total);
         }
         /// <summary>
         /// Get the information by using id of the table WebsiteTag

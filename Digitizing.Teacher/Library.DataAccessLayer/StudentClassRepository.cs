@@ -22,7 +22,7 @@ namespace Library.DataAccessLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<StudentClassModel> Search(int pageIndex, int pageSize, string class_id, string student_name,out long total)
+        public List<StudentClassModel> Search(int pageIndex, int pageSize, string user_id, string class_id, string student_name,out long total)
         {
             total = 0;
             try
@@ -31,6 +31,7 @@ namespace Library.DataAccessLayer
                 {
                     _dbHelper.CreateInParameter("@page_index", DbType.Int32, pageIndex),
                     _dbHelper.CreateInParameter("@page_size", DbType.Int32,  pageSize),
+                    _dbHelper.CreateInParameter("@user_id", DbType.String,  user_id),
                     _dbHelper.CreateInParameter("@class_id", DbType.String,  class_id),
                     _dbHelper.CreateInParameter("@student_name", DbType.String,  student_name),
                     _dbHelper.CreateOutParameter("@OUT_TOTAL_ROW", DbType.Int32, 10),
@@ -117,18 +118,16 @@ namespace Library.DataAccessLayer
 
                 var parameters = new List<IDbDataParameter>
                 {
-                    _dbHelper.CreateInParameter("@student_id_rcd",DbType.String,model.student_id_rcd),
+                    _dbHelper.CreateInParameter("@student_id_rcd",DbType.String,model.student_rcd),
                     _dbHelper.CreateInParameter("@student_name",DbType.String,model.student_name),
                     _dbHelper.CreateInParameter("@gender",DbType.Boolean,model.gender),
                     _dbHelper.CreateInParameter("@date_of_birth",DbType.String,model.date_of_birth),
-                    _dbHelper.CreateInParameter("@student_address",DbType.String,model.student_address),
+                    _dbHelper.CreateInParameter("@student_address",DbType.String,model.student_resident_ward),
                     _dbHelper.CreateInParameter("@student_email",DbType.String,model.student_email),
-                    _dbHelper.CreateInParameter("@phone_number",DbType.String,model.phone_number),
+                    _dbHelper.CreateInParameter("@phone_number",DbType.String,model.student_phone),
                     _dbHelper.CreateInParameter("@class_id",DbType.String,model.class_id),
-                    _dbHelper.CreateInParameter("@password",DbType.String,model.password),
                     _dbHelper.CreateInParameter("@student_status",DbType.String,model.student_status),
                     _dbHelper.CreateInParameter("@student_role",DbType.String,model.student_role),
-                    _dbHelper.CreateInParameter("@created_by_user_id",DbType.Guid,model.created_by_user_id),    
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };

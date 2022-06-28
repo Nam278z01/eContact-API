@@ -42,11 +42,12 @@ namespace Digitizing.Api.Controllers
             {
                 var page = int.Parse(formData["page"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
+                var user_id = formData.Keys.Contains("user_id") ? Convert.ToString(formData["user_id"]) : "";
                 var class_id = formData.Keys.Contains("class_id_rcd") ? Convert.ToString(formData["class_id_rcd"]) : "";
                 var student_name = formData.Keys.Contains("student_name") ? Convert.ToString(formData["student_name"]) : "";
                 //var course_year = formData.Keys.Contains("course_year") ? Convert.ToString(formData["course_year"]): "";
                 long total = 0;
-                var data = await Task.FromResult(_internshipClassBUS.Search(page, pageSize, class_id, student_name, out total));
+                var data = await Task.FromResult(_internshipClassBUS.Search(page, pageSize, user_id, class_id, student_name, out total));
                 response.TotalItems = total;
                 response.Data = data;
                 response.Page = page;
