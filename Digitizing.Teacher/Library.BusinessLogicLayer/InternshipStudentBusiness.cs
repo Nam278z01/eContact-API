@@ -1,6 +1,5 @@
 ﻿using Library.BusinessLogicLayer;
 using Library.DataAccessLayer;
-//using Library.DataAccessLayer;
 using Library.DataModel;
 using System;
 using System.Collections.Generic;
@@ -35,16 +34,6 @@ namespace Library.BusinessLogicLayer
                  out total);
         }
         /// <summary>
-        /// Get the information by using id of the table WebsiteTag
-        /// </summary>
-        /// <param name="id">Id used to get the information</param>
-        /// <returns></returns>
-        //public InternshipStudentSearchModel GetById(string id)
-        //{
-        //    var result = _res.GetById(id);
-        //    return result;
-        //}
-        /// <summary>
         /// Get list internship class dropdown
         /// </summary>
         /// <returns></returns>
@@ -60,13 +49,5 @@ namespace Library.BusinessLogicLayer
         {
             return _res.GetSchoolYearListDropdown();
         }
-        /// <summary>
-        /// Get list internship class dropdown
-        /// </summary>
-        /// <returns></returns>
-        //public List<DropdownOptionModel> GetInternshipListDropdown()
-        //{
-        //    return _res.GetInternshipListDropdown();
-        //}
     }
 }

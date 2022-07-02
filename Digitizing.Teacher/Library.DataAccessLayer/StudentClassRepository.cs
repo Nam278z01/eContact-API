@@ -50,33 +50,6 @@ namespace Library.DataAccessLayer
                 throw ex;
             }
         }
-        /// <summary>
-        /// Get the information by using id of the table WebsiteTag
-        /// </summary>
-        /// <param name="id">Id used to get the information</param>
-        /// <returns></returns>
-        //public InternshipStudentSearchModel GetById(string id)
-        //{
-        //    try
-        //    {
-        //        var parameters = new List<IDbDataParameter>
-        //        {
-        //            _dbHelper.CreateInParameter("@internship_class_id",DbType.String, id),
-        //            _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
-        //            _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
-        //        };
-        //        var result = _dbHelper.CallToFirstOrDefault<InternshipStudentSearchModel>("dbo.leader_internship_class_get_by_id", parameters);
-        //        if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
-        //        {
-        //            throw new Exception(result.ErrorMessage);
-        //        }
-        //        return result.Value;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
 
         /// <summary>
         /// Get information from the table WebsiteTag and push it into a list of type DropdownOptionModel
@@ -149,60 +122,5 @@ namespace Library.DataAccessLayer
             }
         }
 
-        /// <summary>
-        /// Get the information by using id of the table EvaluateRecruitment
-        /// </summary>
-        /// <param name="id">Id used to get the information</param>
-        /// <returns></returns>
-        //public StudentRefModel GetById(String student_rcd)
-        //{
-        //    try
-        //    {
-        //        var parameters = new List<IDbDataParameter>
-        //        {
-        //            _dbHelper.CreateInParameter("@student_rcd",DbType.String, student_rcd),
-        //            _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
-        //            _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
-        //        };
-        //        var result = _dbHelper.CallToFirstOrDefault<StudentRefModel>("dbo.teacher_student_class_get_by_id", parameters);
-        //        if (!string.IsNullOrEmpty(result.ErrorMessage) || result.ErrorCode != 0)
-        //        {
-        //            throw new Exception(result.ErrorMessage);
-        //        }
-        //        return result.Value;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-
-        /// <summary>
-        /// Get information from the table WebsiteTag and push it into a list of type DropdownOptionModel
-        /// </summary>
-        /// <param name="lang">Language used to display data</param> 
-        /// <returns></returns>
-        //public List<DropdownOptionModel> GetInternshipListDropdown()
-        //{
-        //    try
-        //    {
-        //        var parameters = new List<IDbDataParameter>
-        //        {
-        //            _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
-        //            _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
-        //        };
-        //        var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.internship_get_list_dropdown", parameters);
-        //        if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
-        //        {
-        //            throw new Exception(result.ErrorMessage);
-        //        }
-        //        return result.Value;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
     }
 }
