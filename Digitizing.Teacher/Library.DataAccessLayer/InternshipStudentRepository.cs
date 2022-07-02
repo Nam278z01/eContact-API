@@ -22,7 +22,7 @@ namespace Library.DataAccessLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize, string class_id_rcd,
+        public List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize,string user_id, string class_id_rcd,
             string school_year, string course_year,
              out long total)
         {
@@ -33,6 +33,7 @@ namespace Library.DataAccessLayer
                 {
                     _dbHelper.CreateInParameter("@page_index", DbType.Int32, pageIndex),
                     _dbHelper.CreateInParameter("@page_size", DbType.Int32,  pageSize),
+                    _dbHelper.CreateInParameter("@user_id", DbType.String,  user_id),
                     _dbHelper.CreateInParameter("@class_id_rcd", DbType.String,  class_id_rcd),
                     _dbHelper.CreateInParameter("@school_year", DbType.String,  school_year),
                     _dbHelper.CreateInParameter("@course_year", DbType.String,  course_year),

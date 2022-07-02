@@ -9,7 +9,7 @@ namespace Library.BusinessLogicLayer
 {
     public partial interface IInternshipStudentBusiness
     {
-        List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize, string class_id_rcd,
+        List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize,string user_id, string class_id_rcd,
             string school_year, string course_year,
             out long total);
         //InternshipClassSearchModel GetById(string id);
