@@ -160,26 +160,26 @@ namespace Library.DataAccessLayer
         /// </summary>
         /// <param name="lang">Language used to display data</param> 
         /// <returns></returns>
-        //public List<DropdownOptionModel> GetInternshipListDropdown()
-        //{
-        //    try
-        //    {
-        //        var parameters = new List<IDbDataParameter>
-        //        {
-        //            _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
-        //            _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
-        //        };
-        //        var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.internship_get_list_dropdown", parameters);
-        //        if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
-        //        {
-        //            throw new Exception(result.ErrorMessage);
-        //        }
-        //        return result.Value;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        public List<DropdownOptionModel> GetCompanyListDropdown()
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.company_get_list_dropdown", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

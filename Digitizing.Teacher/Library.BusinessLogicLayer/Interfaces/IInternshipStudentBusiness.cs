@@ -16,5 +16,6 @@ namespace Library.BusinessLogicLayer
         List<DropdownOptionModel> GetClassListDropdown();
         List<DropdownOptionModel> GetCourseYearListDropdown();
         List<DropdownOptionModel> GetSchoolYearListDropdown();
+        List<DropdownOptionModel> GetCompanyListDropdown();
     }
 }

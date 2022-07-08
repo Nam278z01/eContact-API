@@ -126,6 +126,21 @@ namespace Digitizing.Api.Controllers
             }
             return response;
         }
+        [Route("get-company-list-drop-down")]
+        [HttpGet]
+        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetCompanyListDropdown()
+        {
+            var response = new ResponseListMessage<List<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_internshipClassBUS.GetCompanyListDropdown());
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
 
         [Route("search-Report")]
         [HttpPost]
