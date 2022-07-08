@@ -32,5 +32,6 @@ namespace Library.DataModel
       public int progress { get; set; }
       public string academic_year { get; set; }
       public DateTime start_date { get; set; }
+      public string company_name { get; set; }
     }
 }

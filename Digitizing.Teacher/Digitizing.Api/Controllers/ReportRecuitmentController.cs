@@ -46,9 +46,10 @@ namespace Digitizing.Api.Controllers
                 var student_name = formData.Keys.Contains("student_name") ? Convert.ToString(formData["student_name"]) : "";
                 var report_week = formData.Keys.Contains("report_week") ? Convert.ToInt32(Convert.ToString(formData["report_week"])) : 1;
                 var academic_year = formData.Keys.Contains("academic_year") ? Convert.ToString(formData["academic_year"]) : "";
+                var company_rcd = formData.Keys.Contains("company_rcd") ? Convert.ToString(formData["company_rcd"]) : "";
                 long total = 0;
                 var data = await Task.FromResult(_reportRecruitmentClassBUS.Search(page, pageSize, class_id,
-                     student_rcd, student_name, academic_year, report_week, out total));
+                     student_rcd, student_name, academic_year, report_week, company_rcd, out total));
                 response.TotalItems = total;
                 response.Data = data;
                 response.Page = page;
@@ -98,6 +99,22 @@ namespace Digitizing.Api.Controllers
             try
             {
                 response.Data = await Task.FromResult(_reportRecruitmentClassBUS.GetClassListDropdown());
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+
+        [Route("get-company-dropdown")]
+        [HttpGet]
+        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetCompanyListDropdown()
+        {
+            var response = new ResponseListMessage<List<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_reportRecruitmentClassBUS.GetCompanyListDropdown());
             }
             catch (Exception ex)
             {

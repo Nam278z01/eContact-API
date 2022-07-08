@@ -141,9 +141,10 @@ namespace Digitizing.Api.Controllers
                 var student_name = formData.Keys.Contains("student_name") ? Convert.ToString(formData["student_name"]) : "";
                 var report_week = formData.Keys.Contains("report_week") ? Convert.ToInt32(Convert.ToString(formData["report_week"])) : 0;
                 var academic_year = formData.Keys.Contains("course_year") ? Convert.ToString(formData["course_year"]) : "";
+                var company_rcd = formData.Keys.Contains("company_rcd") ? Convert.ToString(formData["company_rcd"]) : "";
                 long total = 0;
                 var data = await Task.FromResult(_reportRecruitmentClassBUS.Search(page, pageSize, class_id,
-                     student_rcd, student_name, academic_year, report_week, out total));
+                     student_rcd, student_name, academic_year, report_week, company_rcd, out total));
                 response.TotalItems = total;
                 response.Data = data;
                 response.Page = page;
