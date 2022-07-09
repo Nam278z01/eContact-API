@@ -26,11 +26,11 @@ namespace Library.BusinessLogicLayer
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
         public List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize,string user_id, string class_id_rcd,
-            string school_year, string course_year,
+            string school_year,string company_name, string course_year,
              out long total)
         {
             return _res.Search(pageIndex, pageSize, user_id, class_id_rcd,
-                school_year, course_year,
+                school_year, company_name, course_year,
                  out total);
         }
         /// <summary>
