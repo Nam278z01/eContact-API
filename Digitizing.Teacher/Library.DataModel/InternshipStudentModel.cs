@@ -24,5 +24,6 @@ namespace Library.DataModel
         public double process_score { get; set; }
         public string class_id_rcd { get; set; }
         public string school_year { get; set; }
+        public string internship_id_rcd { get; set; }
     }
 }

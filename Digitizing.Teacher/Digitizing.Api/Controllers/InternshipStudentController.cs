@@ -46,12 +46,11 @@ namespace Digitizing.Api.Controllers
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 var user_id = formData.Keys.Contains("user_id") ? Convert.ToString(formData["user_id"]) : "";
                 var class_id_rcd = formData.Keys.Contains("class_id_rcd") ? Convert.ToString(formData["class_id_rcd"]) : "";
-                var school_year = formData.Keys.Contains("school_year") ? Convert.ToString(formData["school_year"]) : "";
+                var internship = formData.Keys.Contains("internship") ? Convert.ToString(formData["internship"]) : "";
                 var company_name = formData.Keys.Contains("company") ? Convert.ToString(formData["company"]) : "";
-                var course_year = formData.Keys.Contains("course_year") ? Convert.ToString(formData["course_year"]): ""; 
                 long total = 0;
                 var data = await Task.FromResult(_internshipClassBUS.Search(page, pageSize, user_id, class_id_rcd,
-                    school_year,company_name, course_year,
+                    internship, company_name,
                     out total));
                 response.TotalItems = total;
                 response.Data = data;
@@ -135,6 +134,21 @@ namespace Digitizing.Api.Controllers
             try
             {
                 response.Data = await Task.FromResult(_internshipClassBUS.GetCompanyListDropdown());
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+        [Route("get-internship-list-drop-down")]
+        [HttpGet]
+        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetInternshipListDropdown()
+        {
+            var response = new ResponseListMessage<List<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_internshipClassBUS.GetInternshipListDropdown());
             }
             catch (Exception ex)
             {

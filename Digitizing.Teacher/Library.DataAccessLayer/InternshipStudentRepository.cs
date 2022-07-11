@@ -23,7 +23,7 @@ namespace Library.DataAccessLayer
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
         public List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize,string user_id, string class_id_rcd,
-            string school_year, string company_name, string course_year,
+            string internship, string company_name,
              out long total)
         {
             total = 0;
@@ -35,9 +35,8 @@ namespace Library.DataAccessLayer
                     _dbHelper.CreateInParameter("@page_size", DbType.Int32,  pageSize),
                     _dbHelper.CreateInParameter("@user_id", DbType.String,  user_id),
                     _dbHelper.CreateInParameter("@class_id_rcd", DbType.String,  class_id_rcd),
-                    _dbHelper.CreateInParameter("@school_year", DbType.String,  school_year),
                     _dbHelper.CreateInParameter("@company_name", DbType.String,  company_name),
-                    _dbHelper.CreateInParameter("@course_year", DbType.String,  course_year),
+                    _dbHelper.CreateInParameter("@internship_id_rcd", DbType.String,  internship ),
                     _dbHelper.CreateOutParameter("@OUT_TOTAL_ROW", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
@@ -182,5 +181,33 @@ namespace Library.DataAccessLayer
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// Get information from the table WebsiteTag and push it into a list of type DropdownOptionModel
+        /// </summary>
+        /// <param name="lang">Language used to display data</param> 
+        /// <returns></returns>
+        public List<DropdownOptionModel> GetInternshipListDropdown()
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.internship_get_list_dropdown", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

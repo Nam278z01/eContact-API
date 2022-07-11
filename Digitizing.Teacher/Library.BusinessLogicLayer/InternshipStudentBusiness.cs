@@ -25,12 +25,12 @@ namespace Library.BusinessLogicLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize,string user_id, string class_id_rcd,
-            string school_year,string company_name, string course_year,
+        public List<InternshipStudentSearchModel> Search(int pageIndex, int pageSize, string user_id, string class_id_rcd,
+            string internship, string company_name,
              out long total)
         {
             return _res.Search(pageIndex, pageSize, user_id, class_id_rcd,
-                school_year, company_name, course_year,
+                internship, company_name, 
                  out total);
         }
         /// <summary>
@@ -52,6 +52,10 @@ namespace Library.BusinessLogicLayer
         public List<DropdownOptionModel> GetCompanyListDropdown()
         {
             return _res.GetCompanyListDropdown();
+        }
+        public List<DropdownOptionModel> GetInternshipListDropdown()
+        {
+            return _res.GetInternshipListDropdown();
         }
     }
 }
