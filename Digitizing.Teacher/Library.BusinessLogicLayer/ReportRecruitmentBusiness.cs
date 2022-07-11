@@ -24,10 +24,10 @@ namespace Library.BusinessLogicLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<RecruitmentReportSearchModel> Search(int pageIndex, int pageSize, string class_id,
+        public List<RecruitmentReportSearchModel> Search(int pageIndex, int pageSize, string user_id, string class_id,
             string student_rcd, string student_name, string academic_year, int report_week, string company_rcd, out long total)
         {
-            return _res.Search(pageIndex, pageSize, class_id, student_rcd,
+            return _res.Search(pageIndex, pageSize, user_id, class_id, student_rcd,
             student_name, academic_year, report_week, company_rcd, out total);
         }
         /// <summary>

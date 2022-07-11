@@ -21,7 +21,7 @@ namespace Library.DataAccessLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<RecruitmentReportSearchModel> Search(int pageIndex, int pageSize, string class_id,
+        public List<RecruitmentReportSearchModel> Search(int pageIndex, int pageSize, string user_id, string class_id,
             string student_rcd, string student_name, string academic_year, int report_week, string company_rcd, out long total)
         {
             total = 0;
@@ -31,6 +31,7 @@ namespace Library.DataAccessLayer
                 {
                     _dbHelper.CreateInParameter("@page", DbType.Int32, pageIndex),
                     _dbHelper.CreateInParameter("@pageSize", DbType.Int32,  pageSize),
+                    _dbHelper.CreateInParameter("@user_id", DbType.String,  user_id),
                     _dbHelper.CreateInParameter("@class_id", DbType.String,  class_id),
                     _dbHelper.CreateInParameter("@student_rcd", DbType.String,  student_rcd),
                     _dbHelper.CreateInParameter("@report_week", DbType.Int32,  report_week),
