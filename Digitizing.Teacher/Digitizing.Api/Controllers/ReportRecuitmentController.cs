@@ -42,6 +42,7 @@ namespace Digitizing.Api.Controllers
                 var page = int.Parse(formData["page"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 var user_id = formData.Keys.Contains("user_id") ? Convert.ToString(formData["user_id"]) : "";
+                var internship_id_rcd = formData.Keys.Contains("internship_id_rcd") ? Convert.ToString(formData["internship_id_rcd"]) : "";
                 var class_id = formData.Keys.Contains("class_id") ? Convert.ToString(formData["class_id"]) : "";
                 var student_rcd = formData.Keys.Contains("student_rcd") ? Convert.ToString(formData["student_rcd"]) : "";
                 var student_name = formData.Keys.Contains("student_name") ? Convert.ToString(formData["student_name"]) : "";
@@ -50,7 +51,7 @@ namespace Digitizing.Api.Controllers
                 var company_rcd = formData.Keys.Contains("company_rcd") ? Convert.ToString(formData["company_rcd"]) : "";
                 long total = 0;
                 var data = await Task.FromResult(_reportRecruitmentClassBUS.Search(page, pageSize, user_id, class_id,
-                     student_rcd, student_name, academic_year, report_week, company_rcd, out total));
+                     student_rcd, student_name, academic_year, report_week, company_rcd, internship_id_rcd, out total));
                 response.TotalItems = total;
                 response.Data = data;
                 response.Page = page;

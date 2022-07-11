@@ -22,7 +22,8 @@ namespace Library.DataAccessLayer
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
         public List<RecruitmentReportSearchModel> Search(int pageIndex, int pageSize, string user_id, string class_id,
-            string student_rcd, string student_name, string academic_year, int report_week, string company_rcd, out long total)
+            string student_rcd, string student_name, string academic_year, int report_week,
+            string company_rcd, string internship_id_rcd, out long total)
         {
             total = 0;
             try
@@ -38,6 +39,7 @@ namespace Library.DataAccessLayer
                     _dbHelper.CreateInParameter("@student_name", DbType.String,  student_name),
                     _dbHelper.CreateInParameter("@academic_year", DbType.String,  academic_year),
                     _dbHelper.CreateInParameter("@company_rcd", DbType.String, company_rcd),
+                    _dbHelper.CreateInParameter("@internship_id_rcd", DbType.String, internship_id_rcd),
                     _dbHelper.CreateOutParameter("@OUT_TOTAL_ROW", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
