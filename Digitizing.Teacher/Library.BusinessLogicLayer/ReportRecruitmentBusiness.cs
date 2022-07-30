@@ -25,11 +25,11 @@ namespace Library.BusinessLogicLayer
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
         public List<RecruitmentReportSearchModel> Search(int pageIndex, int pageSize, string user_id, string class_id,
-            string student_rcd, string student_name, string academic_year, int report_week,
+            string student_rcd, string student_name, int report_week,
             string company_rcd, string internship_id_rcd, out long total)
         {
             return _res.Search(pageIndex, pageSize, user_id, class_id, student_rcd,
-            student_name, academic_year, report_week, company_rcd, internship_id_rcd, out total);
+            student_name, report_week, company_rcd, internship_id_rcd, out total);
         }
         /// <summary>
         /// Get the information by using id of the table WebsiteTag
@@ -47,14 +47,14 @@ namespace Library.BusinessLogicLayer
         /// Get list internship class dropdown
         /// </summary>
         /// <returns></returns>
-        public List<DropdownOptionModel> GetClassListDropdown()
+        public List<DropdownOptionModel> GetClassListDropdown(string user_id)
         {
-            return _res.GetClassListDropdown();
+            return _res.GetClassListDropdown(user_id);
         }
 
-        public List<DropdownOptionModel> GetCompanyListDropdown()
+        public List<DropdownOptionModel> GetCompanyListDropdown(string user_id)
         {
-            return _res.GetCompanyListDropdown();
+            return _res.GetCompanyListDropdown(user_id);
         }
     }
 }

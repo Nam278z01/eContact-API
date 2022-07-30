@@ -176,7 +176,7 @@ namespace Digitizing.Api.Controllers
                 var company_rcd = formData.Keys.Contains("company_rcd") ? Convert.ToString(formData["company_rcd"]) : "";
                 long total = 0;
                 var data = await Task.FromResult(_reportRecruitmentClassBUS.Search(page, pageSize, user_id, class_id,
-                     student_rcd, student_name, academic_year, report_week, company_rcd,
+                     student_rcd, student_name, report_week, company_rcd,
                      internship_id_rcd, out total));
                 response.TotalItems = total;
                 response.Data = data;

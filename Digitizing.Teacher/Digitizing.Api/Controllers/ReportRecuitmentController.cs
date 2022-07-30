@@ -47,11 +47,10 @@ namespace Digitizing.Api.Controllers
                 var student_rcd = formData.Keys.Contains("student_rcd") ? Convert.ToString(formData["student_rcd"]) : "";
                 var student_name = formData.Keys.Contains("student_name") ? Convert.ToString(formData["student_name"]) : "";
                 var report_week = formData.Keys.Contains("report_week") ? Convert.ToInt32(Convert.ToString(formData["report_week"])) : 1;
-                var academic_year = formData.Keys.Contains("academic_year") ? Convert.ToString(formData["academic_year"]) : "";
                 var company_rcd = formData.Keys.Contains("company_rcd") ? Convert.ToString(formData["company_rcd"]) : "";
                 long total = 0;
                 var data = await Task.FromResult(_reportRecruitmentClassBUS.Search(page, pageSize, user_id, class_id,
-                     student_rcd, student_name, academic_year, report_week, company_rcd, internship_id_rcd, out total));
+                     student_rcd, student_name, report_week, company_rcd, internship_id_rcd, out total));
                 response.TotalItems = total;
                 response.Data = data;
                 response.Page = page;
@@ -95,12 +94,13 @@ namespace Digitizing.Api.Controllers
 
         [Route("get-class-dropdown")]
         [HttpGet]
-        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetClassListDropdown()
+        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetClassListDropdown(string user_id)
         {
+            user_id = user_id == null ? "" : user_id.Trim();
             var response = new ResponseListMessage<List<DropdownOptionModel>>();
             try
             {
-                response.Data = await Task.FromResult(_reportRecruitmentClassBUS.GetClassListDropdown());
+                response.Data = await Task.FromResult(_reportRecruitmentClassBUS.GetClassListDropdown(user_id));
             }
             catch (Exception ex)
             {
@@ -111,12 +111,13 @@ namespace Digitizing.Api.Controllers
 
         [Route("get-company-dropdown")]
         [HttpGet]
-        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetCompanyListDropdown()
+        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetCompanyListDropdown(string user_id)
         {
+            user_id = user_id == null ? "" : user_id.Trim();
             var response = new ResponseListMessage<List<DropdownOptionModel>>();
             try
             {
-                response.Data = await Task.FromResult(_reportRecruitmentClassBUS.GetCompanyListDropdown());
+                response.Data = await Task.FromResult(_reportRecruitmentClassBUS.GetCompanyListDropdown(user_id));
             }
             catch (Exception ex)
             {

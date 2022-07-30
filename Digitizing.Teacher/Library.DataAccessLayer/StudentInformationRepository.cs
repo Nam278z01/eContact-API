@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using Library.DataModel;
 using Library.Common.Helper;
 using System.Data;
+using Library.DataAccessLayer;
 
 namespace Library.DataAccessLayer
 {
-    public partial class ReportRecruitmentRepository : IReportRecruitmentRepository
+    public partial class StudentInformationRepository : IStudentInformationRepository
     {
         private IDatabaseHelper _dbHelper;
-        public ReportRecruitmentRepository(IDatabaseHelper dbHelper)
+        public StudentInformationRepository(IDatabaseHelper dbHelper)
         {
             _dbHelper = dbHelper;
         }
@@ -21,9 +22,12 @@ namespace Library.DataAccessLayer
         /// <param name="lang"> Language used to display data</param>
         /// <param name="total">the total number of records</param> 
         /// <returns></returns>
-        public List<RecruitmentReportSearchModel> Search(int pageIndex, int pageSize, string user_id, string class_id,
-            string student_rcd, string student_name, int report_week,
-            string company_rcd, string internship_id_rcd, out long total)
+        public List<StudentInformationModel> Search(int pageIndex, int pageSize,
+            string school_year,
+            string class_id,
+            string student_rcd,
+             string student_name,
+             out long total)
         {
             total = 0;
             try
@@ -32,57 +36,20 @@ namespace Library.DataAccessLayer
                 {
                     _dbHelper.CreateInParameter("@page", DbType.Int32, pageIndex),
                     _dbHelper.CreateInParameter("@pageSize", DbType.Int32,  pageSize),
-                    _dbHelper.CreateInParameter("@user_id", DbType.String,  user_id),
+                    _dbHelper.CreateInParameter("@school_year", DbType.String,  school_year),
                     _dbHelper.CreateInParameter("@class_id", DbType.String,  class_id),
                     _dbHelper.CreateInParameter("@student_rcd", DbType.String,  student_rcd),
-                    _dbHelper.CreateInParameter("@report_week", DbType.Int32,  report_week),
                     _dbHelper.CreateInParameter("@student_name", DbType.String,  student_name),
-                    _dbHelper.CreateInParameter("@company_rcd", DbType.String, company_rcd),
-                    _dbHelper.CreateInParameter("@internship_id_rcd", DbType.String, internship_id_rcd),
                     _dbHelper.CreateOutParameter("@OUT_TOTAL_ROW", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<RecruitmentReportSearchModel>("dbo.teacher_recruitment_report_search", parameters);
+                var result = _dbHelper.CallToList<StudentInformationModel>("dbo.teacher_student_information_search", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                     throw new Exception(result.ErrorMessage);
 
                 if (result.Output["OUT_TOTAL_ROW"] + "" != "")
                     total = Convert.ToInt32(result.Output["OUT_TOTAL_ROW"]);
-                return result.Value;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        /// <summary>
-        /// Get the information by using id of the table WebsiteTag
-        /// </summary>
-        /// <param name="id">Id used to get the information</param>
-        /// <returns></returns>
-        public List<RecruitmentReportModel> GetReportDetail(int page, int pageSize, string student_rcd,
-                     int report_week, out long total)
-        {
-            total = 0;
-            try
-            {
-                var parameters = new List<IDbDataParameter>
-                {
-                    _dbHelper.CreateInParameter("@page_index",DbType.Int32, page),
-                    _dbHelper.CreateInParameter("@page_size",DbType.Int32, pageSize),
-                    _dbHelper.CreateInParameter("@student_rcd",DbType.String, student_rcd),
-                    _dbHelper.CreateInParameter("@report_week",DbType.Int32, report_week),
-                    _dbHelper.CreateOutParameter("@OUT_TOTAL_ROW", DbType.Int32, 10),
-                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
-                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
-                };
-                var result = _dbHelper.CallToList<RecruitmentReportModel>("dbo.student_recruitment_report_search", parameters);
-                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
-                    throw new Exception(result.ErrorMessage);
-                if (result.Output["OUT_TOTAL_ROW"] + "" != "")
-                    total = Convert.ToInt32(result.Output["OUT_TOTAL_ROW"]);
-
                 return result.Value;
             }
             catch (Exception ex)
@@ -96,17 +63,16 @@ namespace Library.DataAccessLayer
         /// </summary>
         /// <param name="lang">Language used to display data</param> 
         /// <returns></returns>
-        public List<DropdownOptionModel> GetClassListDropdown(string user_id)
+        public List<DropdownOptionModel> GetClassListDropdown()
         {
             try
             {
                 var parameters = new List<IDbDataParameter>
                 {
-                    _dbHelper.CreateInParameter("@user_id", DbType.String, user_id),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.teacher_class_recruitment_get_list_dropdown", parameters);
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.class_get_list_dropdown", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                 {
                     throw new Exception(result.ErrorMessage);
@@ -119,17 +85,16 @@ namespace Library.DataAccessLayer
             }
         }
 
-        public List<DropdownOptionModel> GetCompanyListDropdown(string user_id)
+        public List<DropdownOptionModel> GetSchoolYearListDropdown()
         {
             try
             {
                 var parameters = new List<IDbDataParameter>
                 {
-                    _dbHelper.CreateInParameter("@user_id", DbType.String, user_id),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.teacher_company_recruitment_get_list_dropdown", parameters);
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.school_year_get_list_dropdown", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                 {
                     throw new Exception(result.ErrorMessage);
@@ -141,5 +106,48 @@ namespace Library.DataAccessLayer
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// Update information in the tableEvaluateRecruitment
+        /// </summary>
+        /// <param name="model">the record updated</param>
+        /// <returns></returns>
+        public bool Update(StudentClassModel model)
+        {
+            try
+            {
+
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@student_id_rcd",DbType.String,model.student_rcd),
+                    _dbHelper.CreateInParameter("@student_name",DbType.String,model.student_name),
+                    _dbHelper.CreateInParameter("@gender",DbType.Boolean,model.gender),
+                    _dbHelper.CreateInParameter("@date_of_birth",DbType.String,model.date_of_birth),
+                    _dbHelper.CreateInParameter("@student_address",DbType.String,model.student_resident_ward),
+                    _dbHelper.CreateInParameter("@student_email",DbType.String,model.student_email),
+                    _dbHelper.CreateInParameter("@phone_number",DbType.String,model.student_phone),
+                    _dbHelper.CreateInParameter("@class_id",DbType.String,model.class_id),
+                    _dbHelper.CreateInParameter("@student_status",DbType.String,model.student_status),
+                    _dbHelper.CreateInParameter("@student_role",DbType.String,model.student_role),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToValueWithTransaction("dbo.teacher_student_class_update", parameters);
+                if ((result != null && !string.IsNullOrEmpty(result.ErrorMessage)) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                else if (result.Value != null && result.Value.ToString().IndexOf("MESSAGE") >= 0)
+                {
+                    throw new Exception(result.Value.ToString());
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
