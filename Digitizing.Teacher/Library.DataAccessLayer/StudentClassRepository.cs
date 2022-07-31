@@ -57,16 +57,17 @@ namespace Library.DataAccessLayer
         /// </summary>
         /// <param name="lang">Language used to display data</param> 
         /// <returns></returns>
-        public List<DropdownOptionModel> GetClassListDropdown()
+        public List<DropdownOptionModel> GetClassListDropdown(string teacher_id_rcd)
         {
             try
             {
                 var parameters = new List<IDbDataParameter>
                 {
+                    _dbHelper.CreateInParameter("@teacher_id_rcd", DbType.Int32,  teacher_id_rcd),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.internship_class_get_list_dropdown", parameters);
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.teacher_student_class_list_dropdown", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                 {
                     throw new Exception(result.ErrorMessage);

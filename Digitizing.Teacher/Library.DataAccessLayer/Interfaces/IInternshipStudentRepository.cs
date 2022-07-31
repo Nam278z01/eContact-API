@@ -13,10 +13,10 @@ namespace Library.DataAccessLayer
             string internship, string company_name,
              out long total);
         //InternshipClassSearchModel GetById(string id);
-        List<DropdownOptionModel> GetClassListDropdown();
+        List<DropdownOptionModel> GetClassListDropdown(string teacher_id_rcd);
         List<DropdownOptionModel> GetCourseYearListDropdown();
         List<DropdownOptionModel> GetSchoolYearListDropdown();
-        List<DropdownOptionModel> GetCompanyListDropdown();
+        List<DropdownOptionModel> GetCompanyListDropdown(string teacher_id_rcd);
         List<DropdownOptionModel> GetInternshipListDropdown();
     }
 }

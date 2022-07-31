@@ -87,16 +87,17 @@ namespace Library.DataAccessLayer
         /// </summary>
         /// <param name="lang">Language used to display data</param> 
         /// <returns></returns>
-        public List<DropdownOptionModel> GetClassListDropdown()
+        public List<DropdownOptionModel> GetClassListDropdown(string teacher_id_rcd)
         {
             try
             {
                 var parameters = new List<IDbDataParameter>
                 {
+                    _dbHelper.CreateInParameter("@teacher_id_rcd", DbType.Int32,  teacher_id_rcd),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.internship_class_get_list_dropdown", parameters);
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.teacher_internship_class_list_dropdown", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                 {
                     throw new Exception(result.ErrorMessage);
@@ -160,16 +161,17 @@ namespace Library.DataAccessLayer
         /// </summary>
         /// <param name="lang">Language used to display data</param> 
         /// <returns></returns>
-        public List<DropdownOptionModel> GetCompanyListDropdown()
+        public List<DropdownOptionModel> GetCompanyListDropdown(string teacher_id_rcd)
         {
             try
             {
                 var parameters = new List<IDbDataParameter>
                 {
+                    _dbHelper.CreateInParameter("@teacher_id_rcd", DbType.Int32,  teacher_id_rcd),
                     _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
-                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.company_get_list_dropdown", parameters);
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.teacher_internship_company_list_dropdown", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                 {
                     throw new Exception(result.ErrorMessage);

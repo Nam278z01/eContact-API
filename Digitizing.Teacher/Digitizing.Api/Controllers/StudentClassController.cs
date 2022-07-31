@@ -79,12 +79,12 @@ namespace Digitizing.Api.Controllers
 
         [Route("get-class-dropdown")]
         [HttpGet]
-        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetClassListDropdown()
+        public async Task<ResponseMessage<List<DropdownOptionModel>>> GetClassListDropdown(string teacher_id_rcd)
         {
             var response = new ResponseListMessage<List<DropdownOptionModel>>();
             try
             {
-                response.Data = await Task.FromResult(_internshipClassBUS.GetClassListDropdown());
+                response.Data = await Task.FromResult(_internshipClassBUS.GetClassListDropdown( teacher_id_rcd));
             }
             catch (Exception ex)
             {

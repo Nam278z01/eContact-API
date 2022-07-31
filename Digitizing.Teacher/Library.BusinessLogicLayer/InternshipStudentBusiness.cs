@@ -37,9 +37,9 @@ namespace Library.BusinessLogicLayer
         /// Get list internship class dropdown
         /// </summary>
         /// <returns></returns>
-        public List<DropdownOptionModel> GetClassListDropdown()
+        public List<DropdownOptionModel> GetClassListDropdown(string teacher_id_rcd)
         {
-            return _res.GetClassListDropdown();
+            return _res.GetClassListDropdown(teacher_id_rcd);
         }
         public List<DropdownOptionModel> GetCourseYearListDropdown()
         {
@@ -49,9 +49,9 @@ namespace Library.BusinessLogicLayer
         {
             return _res.GetSchoolYearListDropdown();
         }
-        public List<DropdownOptionModel> GetCompanyListDropdown()
+        public List<DropdownOptionModel> GetCompanyListDropdown(string teacher_id_rcd)
         {
-            return _res.GetCompanyListDropdown();
+            return _res.GetCompanyListDropdown(teacher_id_rcd);
         }
         public List<DropdownOptionModel> GetInternshipListDropdown()
         {

@@ -13,7 +13,7 @@ namespace Library.BusinessLogicLayer
              string student_name,
              out long total);
         //StudentRefModel GetById(string id);
-        List<DropdownOptionModel> GetClassListDropdown();
+        List<DropdownOptionModel> GetClassListDropdown(string teacher_id_rcd);
         bool Update(StudentClassModel model);
 
         //List<DropdownOptionModel> GetInternshipListDropdown();
