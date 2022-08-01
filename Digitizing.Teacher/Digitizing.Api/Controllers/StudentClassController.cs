@@ -61,21 +61,21 @@ namespace Digitizing.Api.Controllers
             return response;
         }
 
-        //[Route("get-by-id/{id}")]
-        //[HttpGet]
-        //public async Task<ResponseMessage<StudentRefModel>> GetById(string id)
-        //{
-        //    var response = new ResponseMessage<StudentRefModel>();
-        //    try
-        //    {
-        //        response.Data = await Task.FromResult(_internshipClassBUS.GetById(id));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        response.MessageCode = ex.Message;
-        //    }
-        //    return response;
-        //}
+        [Route("get-by-id/{id}")]
+        [HttpGet]
+        public async Task<ResponseMessage<StudentRefModel>> GetById(string id)
+        {
+            var response = new ResponseMessage<StudentRefModel>();
+            try
+            {
+                response.Data = await Task.FromResult(_internshipClassBUS.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
 
         [Route("get-class-dropdown")]
         [HttpGet]

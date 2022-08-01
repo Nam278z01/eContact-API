@@ -37,11 +37,11 @@ namespace Library.BusinessLogicLayer
         /// </summary>
         /// <param name="id">Id used to get the information</param>
         /// <returns></returns>
-        //public StudentRefModel GetById(string id)
-        //{
-        //    var result = _res.GetById(id);
-        //    return result;
-        //}
+        public StudentRefModel GetById(string id)
+        {
+            var result = _res.GetById(id);
+            return result;
+        }
 
         /// <summary>
         /// Add a new records into the table EvaluateRecruitment 
