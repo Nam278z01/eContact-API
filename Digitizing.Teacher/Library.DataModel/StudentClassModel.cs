@@ -23,6 +23,8 @@ namespace Library.DataModel
         public string student_nationality { get; set; }
         public string student_religion { get; set; }
         public string student_countryside { get; set; }
+        public string student_address_receive { get; set; }
+        public string student_address { get; set; }
         public string student_citizen_identity_card { get; set; }
         public string student_facebook_url { get; set; }
         public string father_name { get; set; }
