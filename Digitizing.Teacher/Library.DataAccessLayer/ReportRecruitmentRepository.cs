@@ -91,6 +91,29 @@ namespace Library.DataAccessLayer
             }
         }
 
+        public List<DropdownOptionModel> GetWeekListDropdown(string internship_id_rcd)
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@internship_id_rcd", DbType.String, internship_id_rcd),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.teacher_internship_week_get_list_dropdown", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         /// <summary>
         /// Get information from the table WebsiteTag and push it into a list of type DropdownOptionModel
         /// </summary>

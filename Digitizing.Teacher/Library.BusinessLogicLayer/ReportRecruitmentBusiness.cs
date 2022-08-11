@@ -43,6 +43,10 @@ namespace Library.BusinessLogicLayer
                      report_week, out total);
             return result;
         }
+        public List<DropdownOptionModel> GetWeekListDropdown(string internship_id_rcd)
+        {
+            return _res.GetWeekListDropdown(internship_id_rcd);
+        }
         /// <summary>
         /// Get list internship class dropdown
         /// </summary>

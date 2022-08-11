@@ -15,6 +15,7 @@ namespace Library.DataModel
         public string class_name { get; set; }
         public bool gender { get; set; }
         public DateTime date_of_birth { get; set; }
+        public string student_phone { get; set; }
         public string student_email { get; set; }
         public string company_name { get; set; }
         public string course_year { get; set; }

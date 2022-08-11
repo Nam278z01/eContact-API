@@ -92,6 +92,24 @@ namespace Digitizing.Api.Controllers
             return response;
         }
 
+        [Route("get-week-dropdown")]
+        [HttpGet]
+        public async Task<ResponseMessage<List<DropdownOptionModel>>>
+            GetWeekListDropdown(string internship_id_rcd)
+        {
+            internship_id_rcd = internship_id_rcd == null ? "" : internship_id_rcd.Trim();
+            var response = new ResponseListMessage<List<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_reportRecruitmentClassBUS.GetWeekListDropdown(internship_id_rcd));
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+
         [Route("get-class-dropdown")]
         [HttpGet]
         public async Task<ResponseMessage<List<DropdownOptionModel>>> GetClassListDropdown(string user_id)

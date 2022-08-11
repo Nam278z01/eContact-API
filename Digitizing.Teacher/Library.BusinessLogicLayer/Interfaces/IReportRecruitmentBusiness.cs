@@ -10,6 +10,7 @@ namespace Library.BusinessLogicLayer
             string company_rcd, string internship_id_rcd, out long total);
         List<RecruitmentReportModel> GetReportDetail(int page, int pageSize, string student_rcd,
                      int report_week, out long total);
+        List<DropdownOptionModel> GetWeekListDropdown(string internship_id_rcd);
         List<DropdownOptionModel> GetClassListDropdown(string user_id);
         List<DropdownOptionModel> GetCompanyListDropdown(string user_id);
 
