@@ -26,5 +26,6 @@ namespace Library.DataModel
         public string class_id_rcd { get; set; }
         public string school_year { get; set; }
         public string internship_id_rcd { get; set; }
+        public Guid? candidate_id { get; set; }
     }
 }

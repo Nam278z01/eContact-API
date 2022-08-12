@@ -29,6 +29,7 @@ namespace Library.DataAccessLayer
                     _dbHelper.CreateInParameter("@evaluate_recruitment_rcd",DbType.Guid,model.evaluate_recruitment_rcd),
                     _dbHelper.CreateInParameter("@student_rcd",DbType.String,model.student_rcd),
                     _dbHelper.CreateInParameter("@point",DbType.Double,model.point),
+                    _dbHelper.CreateInParameter("@candidate_id",DbType.Guid,model.candidate_id),
                     _dbHelper.CreateInParameter("@academic_year",DbType.String,model.academic_year),
                     _dbHelper.CreateInParameter("@class_id",DbType.String,model.class_id),
                     _dbHelper.CreateInParameter("@created_by_user_id",DbType.Guid,model.created_by_user_id),
@@ -65,7 +66,8 @@ namespace Library.DataAccessLayer
                 {
                     _dbHelper.CreateInParameter("@evaluate_recruitment_rcd",DbType.Guid,model.evaluate_recruitment_rcd),
                     _dbHelper.CreateInParameter("@student_rcd",DbType.String,model.student_rcd),
-                    _dbHelper.CreateInParameter("@point",DbType.Double,model.point),
+                     _dbHelper.CreateInParameter("@candidate_id",DbType.Guid,model.candidate_id),
+                    _dbHelper.CreateInParameter("@point",DbType.Double,model.point), 
                     _dbHelper.CreateInParameter("@academic_year",DbType.String,model.academic_year),
                     _dbHelper.CreateInParameter("@class_id",DbType.String,model.class_id),
                     _dbHelper.CreateInParameter("@created_by_user_id",DbType.Guid,model.created_by_user_id),
