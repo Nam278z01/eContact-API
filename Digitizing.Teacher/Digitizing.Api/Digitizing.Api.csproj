@@ -32,5 +32,9 @@
 	  </Reference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Upload\" />
+	</ItemGroup>
+
 
 </Project>

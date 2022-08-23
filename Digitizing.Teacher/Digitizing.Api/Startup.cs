@@ -56,6 +56,10 @@ namespace Digitizing.Api.Cms
             services.AddTransient<IStudentProjectRegisterBusiness, StudentProjectRegisterBusiness>();
             services.AddTransient<IStudentInformationRepository, StudentInformationRepository>();
             services.AddTransient<IStudentInformationBusiness, StudentInformationBusiness>();
+            services.AddTransient<ISubjectScoreRepository, SubjectScoreRepository>();
+            services.AddTransient<ISubjectScoreBusiness, SubjectScoreBusiness>();
+            services.AddTransient<IPointTrainingRepository, PointTrainingRepository>();
+            services.AddTransient<IPointTrainingBusiness, PointTrainingBusiness>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
