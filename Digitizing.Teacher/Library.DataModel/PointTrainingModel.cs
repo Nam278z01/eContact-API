@@ -13,6 +13,7 @@ namespace Library.DataModel
         public int semester { get; set; }
         public int point { get; set; }
         public string student_rcd { get; set; }
+        public string class_id { get; set; }
         public int active_flag { get; set; }
         public Guid created_by_user_id { get; set; }
         public DateTime created_date_time { get; set; }

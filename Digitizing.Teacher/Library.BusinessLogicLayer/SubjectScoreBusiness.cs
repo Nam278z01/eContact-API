@@ -70,5 +70,21 @@ namespace Library.BusinessLogicLayer
         /// </summary>
         /// <param name="lang">Language used to display data</param> 
         /// <returns></returns>
+        public List<DropdownOptionModel> GetSubjectListDropdown(string class_id)
+        {
+            var result = _res.GetSubjectListDropdown(class_id);
+            return result == null ? null : result;
+        }
+        public List<DropdownOptionModel> GetAcademyYearListDropdown(string class_id)
+        {
+            var result = _res.GetAcademyYearListDropdown(class_id);
+            return result == null ? null : result;
+        }
+
+        public List<DropdownOptionModel> GetStudentListDropdown(string class_id)
+        {
+            var result = _res.GetStudentListDropdown(class_id);
+            return result == null ? null : result;
+        }
     }
 }

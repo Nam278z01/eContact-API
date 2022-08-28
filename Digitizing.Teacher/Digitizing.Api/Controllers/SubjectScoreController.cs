@@ -133,9 +133,9 @@ namespace Digitizing.Api.Controllers
             return response;
         }
 
-        [Route("delete-website-tag")]
+        [Route("delete-subject-score")]
         [HttpPost]
-        public async Task<ResponseListMessage<bool>> DeleteWebsiteTag([FromBody] List<string> items)
+        public async Task<ResponseListMessage<bool>> DeleteSubjectScore([FromBody] List<string> items)
         {
             var response = new ResponseListMessage<bool>();
             try
@@ -206,6 +206,54 @@ namespace Digitizing.Api.Controllers
             {
                 return Ok(new { MessageCodes.UpdateFail });
             }
+        }
+        [Route("get-subject-dropdown")]
+        [HttpGet]
+        public async Task<ResponseMessage<IList<DropdownOptionModel>>> GetSubjectListDropdown(string class_id)
+        {
+            class_id = class_id.IsNullOrEmpty() ? "" : class_id;
+            var response = new ResponseMessage<IList<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_subjectScoreBUS.GetSubjectListDropdown(class_id));
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+        [Route("get-academy-year-dropdown")]
+        [HttpGet]
+        public async Task<ResponseMessage<IList<DropdownOptionModel>>> GetAcademyYearListDropdown(string class_id)
+        {
+            class_id = class_id.IsNullOrEmpty() ? "" : class_id;
+            var response = new ResponseMessage<IList<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_subjectScoreBUS.GetAcademyYearListDropdown(class_id));
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+        [Route("get-student-dropdown")]
+        [HttpGet]
+        public async Task<ResponseMessage<IList<DropdownOptionModel>>> GetStudentListDropdown(string class_id)
+        {
+            class_id = class_id.IsNullOrEmpty() ? "" : class_id;
+            var response = new ResponseMessage<IList<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_subjectScoreBUS.GetStudentListDropdown(class_id));
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
         }
     }
 }

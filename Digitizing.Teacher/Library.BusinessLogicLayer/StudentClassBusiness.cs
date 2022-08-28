@@ -70,5 +70,9 @@ namespace Library.BusinessLogicLayer
         //{
         //    return _res.GetInternshipListDropdown();
         //}
+        public List<DropdownOptionModel> GetStudentListDropdownByFamily(Guid user_id)
+        {
+            return _res.GetStudentListDropdownByFamily(user_id);
+        }
     }
 }

@@ -176,5 +176,73 @@ namespace Library.DataAccessLayer
                 throw ex;
             }
         }
+
+        public List<DropdownOptionModel> GetSubjectListDropdown(string class_id)
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@class_id", DbType.String, class_id),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.teacher_subject_get_list_dropdown", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<DropdownOptionModel> GetAcademyYearListDropdown(string class_id)
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@class_id", DbType.String, class_id),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.teacher_academy_year_get_list_dropdown", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<DropdownOptionModel> GetStudentListDropdown(string class_id)
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@class_id", DbType.String, class_id),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<DropdownOptionModel>("dbo.teacher_student_sj_get_list_dropdown", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

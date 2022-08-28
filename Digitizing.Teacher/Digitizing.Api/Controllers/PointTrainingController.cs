@@ -131,7 +131,7 @@ namespace Digitizing.Api.Controllers
             return response;
         }
 
-        [Route("delete-website-tag")]
+        [Route("delete-point-training")]
         [HttpPost]
         public async Task<ResponseListMessage<bool>> DeleteWebsiteTag([FromBody] List<string> items)
         {

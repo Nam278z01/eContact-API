@@ -17,5 +17,6 @@ namespace Library.BusinessLogicLayer
         bool Update(StudentClassModel model);
 
         //List<DropdownOptionModel> GetInternshipListDropdown();
+        List<DropdownOptionModel> GetStudentListDropdownByFamily(Guid user_id);
     }
 }

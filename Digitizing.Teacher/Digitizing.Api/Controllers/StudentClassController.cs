@@ -15,6 +15,7 @@ using System.Data;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Digitizing.Api.Cms.Controllers;
+using Easy.Common.Extensions;
 //using Library.BusinessLogicLayer;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -136,6 +137,20 @@ namespace Digitizing.Api.Controllers
         //    }
         //    return response;
         //}
-
+        [Route("get-student-dropdown-by-family")]
+        [HttpGet]
+        public async Task<ResponseMessage<IList<DropdownOptionModel>>> GetStudentListDropdownByFamily()
+        {
+            var response = new ResponseMessage<IList<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_internshipClassBUS.GetStudentListDropdownByFamily(CurrentUserId));
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
     }
 }
