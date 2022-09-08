@@ -132,6 +132,21 @@ namespace Digitizing.Api.Controllers
             }
             return response;
         }
+        [Route("get-student-by-family")]
+        [HttpGet]
+        public async Task<ResponseListMessage<List<StudentForSubjectScore>>> GetStudentsByFamily()
+        {
+            var response = new ResponseListMessage<List<StudentForSubjectScore>>();
+            try
+            {
+                response.Data = await Task.FromResult(_subjectScoreBUS.GetStudentsByFamily(CurrentUserId));
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
 
         [Route("delete-subject-score")]
         [HttpPost]

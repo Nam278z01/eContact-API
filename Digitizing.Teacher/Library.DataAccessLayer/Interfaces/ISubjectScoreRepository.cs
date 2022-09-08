@@ -13,5 +13,6 @@ namespace Library.DataAccessLayer
         List<DropdownOptionModel> GetSubjectListDropdown(string class_id);
         List<DropdownOptionModel> GetAcademyYearListDropdown(string class_id);
         List<DropdownOptionModel> GetStudentListDropdown(string class_id);
+        List<StudentForSubjectScore> GetStudentsByFamily(Guid user_id);
     }
 }

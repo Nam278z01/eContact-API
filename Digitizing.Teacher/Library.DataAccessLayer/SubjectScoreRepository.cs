@@ -10,6 +10,7 @@ namespace Library.DataAccessLayer
     public partial class SubjectScoreRepository : ISubjectScoreRepository
     {
         private IDatabaseHelper _dbHelper;
+        //DatabaseHelper dbHelper;
         public SubjectScoreRepository(IDatabaseHelper dbHelper)
         {
             _dbHelper = dbHelper;
@@ -121,6 +122,29 @@ namespace Library.DataAccessLayer
                 if (result.Output["OUT_TOTAL_ROW"] + "" != "")
                 {
                     total = Convert.ToInt32(result.Output["OUT_TOTAL_ROW"]);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<StudentForSubjectScore> GetStudentsByFamily(Guid user_id)
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@user_id", DbType.Guid, user_id),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<StudentForSubjectScore>("dbo.teacher_student_get_list_by_family", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
                 }
                 return result.Value;
             }

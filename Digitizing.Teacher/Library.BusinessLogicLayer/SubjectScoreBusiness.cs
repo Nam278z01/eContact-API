@@ -45,6 +45,10 @@ namespace Library.BusinessLogicLayer
         {
             return _res.Search(request, out total);
         }
+        public List<StudentForSubjectScore> GetStudentsByFamily(Guid user_id)
+        {
+            return _res.GetStudentsByFamily(user_id);
+        }
         /// <summary>
         /// Get the information by using id of the table WebsiteTag
         /// </summary>

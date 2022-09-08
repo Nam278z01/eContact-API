@@ -23,5 +23,22 @@ namespace Library.BusinessLogicLayer
         {
             return _res.Create(model);
         }
+        public List<NotificationInfoSearchModel> Search(NotificarionInfoRequest request, out long total)
+        {
+            return _res.Search(request, out total);
+        }
+        public List<NotificationInfoModel> Delete(string json_list_id, Guid updated_by)
+        {
+            return _res.Delete(json_list_id, updated_by);
+        }
+
+        public NotificationInfoModel GetById(Guid? id)
+        {
+            return _res.GetById(id);
+        }
+        public List<DropdownOptionModel> GetParentsListDropdownByClass(string class_id)
+        {
+            return _res.GetParentsListDropdownByClass(class_id);
+        }
     }
 }

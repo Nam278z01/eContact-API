@@ -19,6 +19,7 @@ using Easy.Common.Extensions;
 using System.IO;
 using Digitizing.Api.CustomImport;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Digitizing.Api.Controllers
 {
@@ -53,6 +54,82 @@ namespace Digitizing.Api.Controllers
                     response.MessageCode = MessageCodes.CreateFail;
                 }
 
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+        [Route("search")]
+        [HttpPost]
+        public async Task<ResponseListMessage<List<NotificationInfoSearchModel>>> Search([FromBody] NotificarionInfoRequest request)
+        {
+            var response = new ResponseListMessage<List<NotificationInfoSearchModel>>();
+            try
+            {
+                long total = 0;
+                request.class_id = request.class_id.IsNullOrEmpty() ? "" : request.class_id;
+                request.user_id = CurrentUserId;
+
+                var data = await Task.FromResult(_notification2BUS.Search(request, out total));
+                response.TotalItems = total;
+                response.Data = data;
+                response.Page = request.page;
+                response.PageSize = request.pageSize;
+
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+
+        [Route("get-by-id/{id}")]
+        [HttpGet]
+        public async Task<ResponseMessage<NotificationInfoModel>> GetById(Guid? id)
+        {
+            var response = new ResponseMessage<NotificationInfoModel>();
+            try
+            {
+                response.Data = await Task.FromResult(_notification2BUS.GetById(id));
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+
+        [Route("delete-notification2")]
+        [HttpPost]
+        public async Task<ResponseListMessage<bool>> DeleteNotification2([FromBody] List<string> items)
+        {
+            var response = new ResponseListMessage<bool>();
+            try
+            {
+                var json_list_id = MessageConvert.SerializeObject(items.Select(ds => new { notification_info_id = ds }).ToList());
+                var listItem = await Task.FromResult(_notification2BUS.Delete(json_list_id, CurrentUserId));
+                response.Data = listItem != null;
+                response.MessageCode = MessageCodes.DeleteSuccessfully;
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+
+        [Route("get-parents-dropdown-by-class")]
+        [HttpGet]
+        public async Task<ResponseMessage<IList<DropdownOptionModel>>> GetParentsListDropdownByClass(string class_id)
+        {
+            class_id = class_id.IsNullOrEmpty() ? "" : class_id;
+            var response = new ResponseMessage<IList<DropdownOptionModel>>();
+            try
+            {
+                response.Data = await Task.FromResult(_notification2BUS.GetParentsListDropdownByClass(class_id));
             }
             catch (Exception ex)
             {

@@ -44,4 +44,11 @@ namespace Library.DataModel
         public string student_name { get; set; }
         public string class_id { get; set; }
     }
+    public partial class StudentForSubjectScore
+    {
+        public string student_rcd { get; set; }
+        public string student_name { get; set; }
+        public string class_id { get; set; }
+        public string form_teacher { get; set; }
+    }
 }
