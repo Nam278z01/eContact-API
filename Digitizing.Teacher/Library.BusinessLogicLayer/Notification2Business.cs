@@ -23,7 +23,7 @@ namespace Library.BusinessLogicLayer
         {
             return _res.Create(model);
         }
-        public List<NotificationInfoSearchModel> Search(NotificarionInfoRequest request, out long total)
+        public List<NotificationInfoSearchModel> Search(NotificationInfoRequest request, out long total)
         {
             return _res.Search(request, out total);
         }
@@ -39,6 +39,22 @@ namespace Library.BusinessLogicLayer
         public List<DropdownOptionModel> GetParentsListDropdownByClass(string class_id)
         {
             return _res.GetParentsListDropdownByClass(class_id);
+        }
+        public List<Notification2SearchModel> GetMyNotification(Notification2Request request, out long total)
+        {
+            return _res.GetMyNotification(request, out total);
+        }
+        public Notification2SearchModel GetMyNotificationById(Guid? id, Guid user_id)
+        {
+            return _res.GetMyNotificationById(id, user_id);
+        }
+        public bool CheckNotification(Guid user_id)
+        {
+            return _res.CheckNotification(user_id);
+        }
+        public int CountUnCheckedNotification(Guid user_id)
+        {
+            return _res.CountUnCheckedNotification(user_id);
         }
     }
 }

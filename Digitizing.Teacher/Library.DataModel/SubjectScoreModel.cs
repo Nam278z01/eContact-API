@@ -50,5 +50,10 @@ namespace Library.DataModel
         public string student_name { get; set; }
         public string class_id { get; set; }
         public string form_teacher { get; set; }
+        public bool gender { get; set; }
+        public DateTime date_of_birth { get; set; }
+        public string student_email { get; set; }
+        public string student_address { get; set; }
+        public string student_phone { get; set; }
     }
 }

@@ -63,7 +63,7 @@ namespace Digitizing.Api.Controllers
         }
         [Route("search")]
         [HttpPost]
-        public async Task<ResponseListMessage<List<NotificationInfoSearchModel>>> Search([FromBody] NotificarionInfoRequest request)
+        public async Task<ResponseListMessage<List<NotificationInfoSearchModel>>> Search([FromBody] NotificationInfoRequest request)
         {
             var response = new ResponseListMessage<List<NotificationInfoSearchModel>>();
             try
@@ -130,6 +130,84 @@ namespace Digitizing.Api.Controllers
             try
             {
                 response.Data = await Task.FromResult(_notification2BUS.GetParentsListDropdownByClass(class_id));
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+        [Route("get-my-notification2")]
+        [HttpPost]
+        public async Task<ResponseListMessage<List<Notification2SearchModel>>> GetMyNotification([FromBody] Notification2Request request)
+        {
+            var response = new ResponseListMessage<List<Notification2SearchModel>>();
+            try
+            {
+                long total = 0;
+                request.user_id = CurrentUserId;
+
+                var data = await Task.FromResult(_notification2BUS.GetMyNotification(request, out total));
+                response.TotalItems = total;
+                response.Data = data;
+                response.Page = request.page;
+                response.PageSize = request.pageSize;
+
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+        [Route("get-my-notification2-by-id/{id}")]
+        [HttpGet]
+        public async Task<ResponseMessage<Notification2SearchModel>> GetMyNotificationById(Guid? id)
+        {
+            var response = new ResponseMessage<Notification2SearchModel>();
+            try
+            {
+                response.Data = await Task.FromResult(_notification2BUS.GetMyNotificationById(id, CurrentUserId));
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+        [Route("check-notification2")]
+        [HttpPost]
+        public async Task<ResponseMessage<bool>> CheckNotification()
+        {
+            var response = new ResponseMessage<bool>();
+            try
+            {
+                var resultBUS = await Task.FromResult(_notification2BUS.CheckNotification(CurrentUserId));
+                if (resultBUS)
+                {
+                    response.Data = true;
+                    response.MessageCode = MessageCodes.SendSuccess;
+                }
+                else
+                {
+                    response.MessageCode = MessageCodes.CreateFail;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+        [Route("count-unchecked-notification2")]
+        [HttpPost]
+        public async Task<ResponseMessage<int>> CountUnCheckedNotification()
+        {
+            var response = new ResponseMessage<int>();
+            try
+            {
+                 response.Data = await Task.FromResult(_notification2BUS.CountUnCheckedNotification(CurrentUserId)); ;
             }
             catch (Exception ex)
             {

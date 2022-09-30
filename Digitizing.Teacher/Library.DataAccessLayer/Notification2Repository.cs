@@ -51,7 +51,7 @@ namespace Library.DataAccessLayer
             }
         }
 
-        public List<NotificationInfoSearchModel> Search(NotificarionInfoRequest request, out long total)
+        public List<NotificationInfoSearchModel> Search(NotificationInfoRequest request, out long total)
         {
             total = 0;
             try
@@ -144,6 +144,110 @@ namespace Library.DataAccessLayer
                     _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
                 };
                 var result = _dbHelper.CallToList<NotificationInfoModel>("dbo.teacher_notification_info_delete_multi", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Notification2SearchModel> GetMyNotification(Notification2Request request, out long total)
+        {
+            total = 0;
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@page", DbType.Int32, request.page),
+                    _dbHelper.CreateInParameter("@pageSize", DbType.Int32,  request.pageSize),
+                    _dbHelper.CreateInParameter("@user_id", DbType.Guid,  request.user_id),
+                    _dbHelper.CreateOutParameter("@OUT_TOTAL_ROW", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToList<Notification2SearchModel>("dbo.teacher_notification2_get_my_notification2", parameters);
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                if (result.Output["OUT_TOTAL_ROW"] + "" != "")
+                {
+                    total = Convert.ToInt32(result.Output["OUT_TOTAL_ROW"]);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public Notification2SearchModel GetMyNotificationById(Guid? id, Guid user_id)
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@notification2_id",DbType.Guid, id),
+                    _dbHelper.CreateInParameter("@user_id",DbType.Guid, user_id),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToFirstOrDefault<Notification2SearchModel>("dbo.teacher_notification2_get_my_notification2_by_id", parameters);
+
+                if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                return result.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool CheckNotification(Guid user_id)
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@user_id", DbType.Guid, user_id),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToValueWithTransaction("dbo.teacher_notification2_check_notification2", parameters);
+                if ((result != null) && !string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+                else if (result.Value != null && result.Value.ToString().IndexOf("MESSAGE") >= 0)
+                {
+                    throw new Exception(result.Value.ToString());
+                }
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int CountUnCheckedNotification(Guid user_id)
+        {
+            try
+            {
+                var parameters = new List<IDbDataParameter>
+                {
+                    _dbHelper.CreateInParameter("@user_id", DbType.Guid, user_id),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_CD", DbType.Int32, 10),
+                    _dbHelper.CreateOutParameter("@OUT_ERR_MSG", DbType.String, 255)
+                };
+                var result = _dbHelper.CallToValue<int>("dbo.teacher_notification2_count_unchecked_notification2", parameters);
                 if (!string.IsNullOrEmpty(result.ErrorMessage) && result.ErrorCode != 0)
                 {
                     throw new Exception(result.ErrorMessage);
