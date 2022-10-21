@@ -164,9 +164,9 @@ namespace Digitizing.Api.CustomImport
                     }
 
                     dataTable.Columns.Add("student_rcd");
-                    dataTable.Columns.Add("student_name");
-                    dataTable.Columns.Add("class_id");
-                    dataTable.Columns.Add("date_of_birth");
+                    //dataTable.Columns.Add("student_name");
+                    //dataTable.Columns.Add("class_id");
+                    //dataTable.Columns.Add("date_of_birth");
                     dataTable.Columns.Add("point");
 
                     for (int i = headerRow + 1; i <= excelWorksheet.Dimension.End.Row; i++)
