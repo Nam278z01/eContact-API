@@ -145,7 +145,7 @@ namespace Digitizing.Api.Controllers
             try
             {
                 long total = 0;
-
+                request.user_id = CurrentUserId;
                 var data = await Task.FromResult(_notification2BUS.GetMyNotification(request, out total));
                 response.TotalItems = total;
                 response.Data = data;
