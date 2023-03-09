@@ -12,6 +12,7 @@ namespace Library.DataModel
         public string notification_title { get; set; }
         public string notification_content { get; set; }
         public string class_id { get; set; }
+        public int notification_type { get; set; }
         public List<string> receivers { get; set; }
         public int active_flag { get; set; }
         public Guid created_by_user_id { get; set; }

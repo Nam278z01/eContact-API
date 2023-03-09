@@ -27,6 +27,7 @@ namespace Library.DataAccessLayer
                     _dbHelper.CreateInParameter("@notification_info_id", DbType.Guid, model.notification_info_id),
                     _dbHelper.CreateInParameter("@notification_title", DbType.String, model.notification_title),
                     _dbHelper.CreateInParameter("@notification_content", DbType.String, model.notification_content),
+                    _dbHelper.CreateInParameter("@notification_type", DbType.Int32,model.notification_type),
                     _dbHelper.CreateInParameter("@receivers", DbType.String,json_list_id),
                     _dbHelper.CreateInParameter("@class_id", DbType.String, model.class_id),
                     _dbHelper.CreateInParameter("@created_by_user_id", DbType.Guid, model.created_by_user_id),

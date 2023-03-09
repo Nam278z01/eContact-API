@@ -19,86 +19,59 @@ using Easy.Common.Extensions;
 using System.IO;
 using Digitizing.Api.CustomImport;
 
-namespace Digitizing.Api.Controllers
+namespace Digitizing.Api.Cms.Controllers
 {
     [Route("api/tuition-fee")]
     [ApiController]
     public class TuitionFeeController : BaseController
     {
         private IWebHostEnvironment _env;
-        private ITuitionFeeBusiness _tuitionFeeBUS;
-
-        public TuitionFeeController(ICacheProvider redis, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env, ITuitionFeeBusiness tuitionFeeBUS) : base(redis, configuration, httpContextAccessor)
+        private ITuitionFeeBusiness _BUS;
+        public TuitionFeeController(ICacheProvider redis, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env, ITuitionFeeBusiness BUS) : base(redis, configuration, httpContextAccessor)
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
-            _tuitionFeeBUS = tuitionFeeBUS;
+            _BUS = BUS;
         }
-        [Route("create-tuition-fee")]
-        [HttpPost]
-        public async Task<ResponseMessage<TuitionFeeModel>> CreateTuitionFee([FromBody] TuitionFeeModel model)
+
+        [Route("Upload")]
+        [HttpPost, DisableRequestSizeLimit]
+        public async Task<ResponseMessage<List<string>>> Upload(string academy_year, int semester, IFormFile file)
         {
-            var response = new ResponseMessage<TuitionFeeModel>();
+            var response = new ResponseMessage<List<string>> ();
+            List<string> students = new List<string> ();
             try
             {
-                if (model.tuition_fee_id == Guid.Empty) model.tuition_fee_id = Guid.NewGuid();
-                model.created_by_user_id = CurrentUserId;
-                var resultBUS = await Task.FromResult(_tuitionFeeBUS.Create(model));
-                if (resultBUS)
+                if (file.Length > 0 && file.FileName.Contains(".xlsx"))
                 {
-                    response.Data = model;
-                    response.MessageCode = MessageCodes.CreateSuccessfully;
-                }
-                else
-                {
-                    response.MessageCode = MessageCodes.CreateFail;
-                }
+                    var filename = Guid.NewGuid().ToString().Replace("-", "") + ".xlsx";
+                    var webRoot = _env.ContentRootPath;
+                    var filePath = Path.Combine(webRoot + "/Upload/", filename);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                    var messageError = "";
+                    var data = ImportExcel.ReadFromExcelFileForTuitionFee(filePath, out messageError);
+                    var list = Tools.ConvertDataTable<TuitionFeeModel>(data);
+                    foreach (var model in list)
+                        if (!string.IsNullOrEmpty(model.tuition_fee_id.ToString()))
+                        {
+                            try
+                            {
+                                model.tuition_fee_id = Guid.NewGuid();
+                                model.academy_year = academy_year;
+                                model.semester = semester;
+                                model.created_by_user_id = CurrentUserId;
+                                string student_rcd = await Task.FromResult(_BUS.Create(model));
+                                if(!string.IsNullOrEmpty(student_rcd))
+                                {
+                                    students.Add(student_rcd);
+                                }
+                            }
+                            catch { }
+                        }
 
-            }
-            catch (Exception ex)
-            {
-                response.MessageCode = ex.Message;
-            }
-            return response;
-        }
-        [Route("create-student-tuition-fee")]
-        [HttpPost]
-        public async Task<ResponseMessage<StudentTuitionFeeModel>> CreateStudentTuitionFee([FromBody] StudentTuitionFeeModel model)
-        {
-            var response = new ResponseMessage<StudentTuitionFeeModel>();
-            try
-            {
-                model.created_by_user_id = CurrentUserId;
-                var resultBUS = await Task.FromResult(_tuitionFeeBUS.CreateStudentTuitionFee(model));
-                if (resultBUS)
-                {
-                    response.Data = model;
-                    response.MessageCode = MessageCodes.CreateSuccessfully;
-                }
-                else
-                {
-                    response.MessageCode = MessageCodes.CreateFail;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                response.MessageCode = ex.Message;
-            }
-            return response;
-        }
-        [Route("update-tuition-fee")]
-        [HttpPost]
-        public async Task<ResponseMessage<TuitionFeeModel>> UpdateTuitionFee([FromBody] TuitionFeeModel model)
-        {
-            var response = new ResponseMessage<TuitionFeeModel>();
-            try
-            {
-
-                model.lu_user_id = CurrentUserId;
-                var resultBUS = await Task.FromResult(_tuitionFeeBUS.Update(model));
-                if (resultBUS)
-                {
-                    response.Data = model;
+                    response.Data = students;
                     response.MessageCode = MessageCodes.UpdateSuccessfully;
                 }
                 else
@@ -114,83 +87,19 @@ namespace Digitizing.Api.Controllers
         }
         [Route("search")]
         [HttpPost]
-        public async Task<ResponseListMessage<List<TuitionFeeSearchModel>>> Search([FromBody] TuitionFeeRequest request)
+        public async Task<ResponseListMessage<List<TuitionFeeSearchModel>>> Search([FromBody] TuitionFeeRequestModel request)
         {
             var response = new ResponseListMessage<List<TuitionFeeSearchModel>>();
             try
             {
-                long total = 0;
-                request.academy_year = request.academy_year.IsNullOrEmpty() ? "" : request.academy_year;
-                request.semester = request.semester.IsNullOrEmpty() ? "" : request.semester;
-                request.class_id = request.class_id.IsNullOrEmpty() ? "" : request.class_id;
-                request.student_rcd = request.student_rcd.IsNullOrEmpty() ? "" : request.student_rcd;
 
-                var data = await Task.FromResult(_tuitionFeeBUS.Search(request, out total));
+                long total = 0;
+                var data = await Task.FromResult(_BUS.Search(request, out total));
                 response.TotalItems = total;
                 response.Data = data;
                 response.Page = request.page;
                 response.PageSize = request.pageSize;
 
-            }
-            catch (Exception ex)
-            {
-                response.MessageCode = ex.Message;
-            }
-            return response;
-        }
-        [Route("search-main")]
-        [HttpPost]
-        public async Task<ResponseListMessage<List<TuitionFeeModel>>> SearchTuitionFeeMain([FromBody] TuitionFeeMainRequest request)
-        {
-            var response = new ResponseListMessage<List<TuitionFeeModel>>();
-            try
-            {
-                long total = 0;
-                request.academy_year = request.academy_year.IsNullOrEmpty() ? "" : request.academy_year;
-                request.semester = request.semester.IsNullOrEmpty() ? "" : request.semester;
-
-                var data = await Task.FromResult(_tuitionFeeBUS.SearchTuitionFeeMain(request, out total));
-                response.TotalItems = total;
-                response.Data = data;
-                response.Page = request.page;
-                response.PageSize = request.pageSize;
-
-            }
-            catch (Exception ex)
-            {
-                response.MessageCode = ex.Message;
-            }
-            return response;
-        }
-        [Route("delete-tuition-fee")]
-        [HttpPost]
-        public async Task<ResponseListMessage<bool>> DeleteTuitionFee([FromBody] List<string> items)
-        {
-            var response = new ResponseListMessage<bool>();
-            try
-            {
-                var json_list_id = MessageConvert.SerializeObject(items.Select(ds => new { tuition_fee_id = ds }).ToList());
-                var listItem = await Task.FromResult(_tuitionFeeBUS.Delete(json_list_id, CurrentUserId));
-                response.Data = listItem != null;
-                response.MessageCode = MessageCodes.DeleteSuccessfully;
-            }
-            catch (Exception ex)
-            {
-                response.MessageCode = ex.Message;
-            }
-            return response;
-        }
-        [Route("delete-student-tuition-fee")]
-        [HttpPost]
-        public async Task<ResponseListMessage<bool>> DeleteStudentTuitionFee([FromBody] List<string> items)
-        {
-            var response = new ResponseListMessage<bool>();
-            try
-            {
-                var json_list_id = MessageConvert.SerializeObject(items.Select(ds => new { student_tuition_fee_id = ds }).ToList());
-                var listItem = await Task.FromResult(_tuitionFeeBUS.DeleteStudentTuitionFee(json_list_id, CurrentUserId));
-                response.Data = listItem != null;
-                response.MessageCode = MessageCodes.DeleteSuccessfully;
             }
             catch (Exception ex)
             {

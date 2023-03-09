@@ -211,5 +211,134 @@ namespace Digitizing.Api.CustomImport
 
             return dataTable;
         }
+        public static DataTable ReadFromExcelFileForTuitionFee(string path, out string messageError)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                if (string.IsNullOrEmpty(path) || !File.Exists(path))
+                {
+                    messageError = "FILE_NOT_EXISTS";
+                    return null;
+                }
+
+                if (!string.IsNullOrEmpty(path) && Path.HasExtension(path) && Path.GetExtension(path)!.ToLower() != ".xlsx")
+                {
+                    messageError = "WRONG_FORMAT_FILE";
+                    return null;
+                }
+
+                using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(path)))
+                {
+                    ExcelWorkbook workbook = excelPackage.Workbook;
+                    if (workbook == null || workbook.Worksheets.Count == 0)
+                    {
+                        messageError = "EMPTY_DATA";
+                        return null;
+                    }
+
+                    dataTable.Columns.Add("student_rcd");
+                    dataTable.Columns.Add("owe_tuition_fee_last_semester");
+                    dataTable.Columns.Add("owe_TATC_last_semester");
+                    dataTable.Columns.Add("tuition_fee_to_be_paid");
+                    dataTable.Columns.Add("TATC_to_be_paid");
+                    dataTable.Columns.Add("tuition_fee_exemption");
+                    dataTable.Columns.Add("tuition_fee_paid");
+                    dataTable.Columns.Add("refund_of_tuition_fee");
+                    dataTable.Columns.Add("TATC_paid");
+                    dataTable.Columns.Add("lack_or_excess_of_TATC");
+                    dataTable.Columns.Add("lack_or_excess_of_tuition_fee");
+                    dataTable.Columns.Add("note");
+
+                    //Start with row number 10
+                    int headerRow = 10;
+                    //Start with column number 2
+                    int startColumn = 2;
+
+                    ExcelWorksheet excelWorksheet = workbook.Worksheets.First();
+                    var mergedCells = excelWorksheet.MergedCells;
+
+                    //Get the index of the first cell in each merged cell and save it to a list of integers
+                    List<int> mergedCellIndexes = new List<int>()
+                    {
+                        7, 14, 17, 18, 20, 22, 24, 27, 29, 31, 33, 37
+                    };
+
+                    // Subtract 6 rows
+                    for (int i = headerRow + 1; i <= excelWorksheet.Dimension.End.Row - 6; i++)
+                    {
+                        ExcelRange excelRange = excelWorksheet.Cells[i, startColumn, i, excelWorksheet.Dimension.End.Column];
+                        DataRow dataRow = dataTable.NewRow();
+                        bool flag = false;
+                        string text = "";
+                        int index = 0;
+                        bool isSkipRow = false;
+
+                        if (excelRange[i, 2].Value.ToString().Trim() != "Lớp:")
+                        {
+                            foreach (int index2 in mergedCellIndexes)
+                            {
+                                if (excelRange[i, index2] != null)
+                                {
+                                    flag = true;
+                                }
+                                dataRow[index] = excelRange[i, index2].Value;
+                                text += ((excelRange[i, index2].Value != null) ? excelRange[i, index2].Value : "");
+                                index++;
+                            }
+                        }
+                        else
+                        {
+                            isSkipRow = true;
+                        }
+
+                        //foreach (ExcelRangeBase item in excelRange)
+                        //{
+                        //    // Skip row
+                        //    if (item.Start.Column == 2)
+                        //    {
+                        //        ExcelRange mergedRange = excelWorksheet.Cells[item.Start.Row, item.Start.Column, item.End.Row, item.End.Column];
+
+                        //        if (mergedRange.Value.ToString().Trim() == "Lớp:")
+                        //        {
+                        //            isSkipRow = true;
+                        //            break;
+                        //        }
+                        //        isSkipRow = false;
+                        //    }
+                        //    // Skip column "STT" and "Họ và tên"
+                        //    if (mergedCellIndexes.Contains(item.Start.Column))
+                        //    {
+                        //        if (item != null)
+                        //        {
+                        //            flag = true;
+                        //        }
+                        //        dataRow[index] = item.Value;
+                        //        text += ((item.Value != null) ? item.Value : "");
+                        //        index++;
+                        //    }
+                        //}
+
+                        if (flag && !string.IsNullOrEmpty(text.Trim()))
+                        {
+                            dataTable.Rows.Add(dataRow);
+                        }
+
+                        if (!isSkipRow && string.IsNullOrEmpty(text.Trim()))
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                messageError = "";
+            }
+            catch (Exception ex)
+            {
+                messageError = "ERROR:" + ex.Message;
+            }
+
+            return dataTable;
+        }
     }
 }
