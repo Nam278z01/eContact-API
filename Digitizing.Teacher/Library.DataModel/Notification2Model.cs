@@ -25,6 +25,7 @@ namespace Library.DataModel
         public Guid notification_info_id { get; set; }
         public string notification_title { get; set; }
         public string notification_content { get; set; }
+        public int notification_type { get; set; }
         public string class_id { get; set; }
         public DateTime created_date_time { get; set; }
         public List<Notification2SearchModel> receivers { get; set; }
@@ -54,6 +55,7 @@ namespace Library.DataModel
         public Guid notification_info_id { get; set; }
         public string notification_title { get; set; }
         public string notification_content { get; set; }
+        public int notification_type { get; set; }
         public DateTime created_date_time { get; set; }
     }
     public partial class NotificationInfoRequest

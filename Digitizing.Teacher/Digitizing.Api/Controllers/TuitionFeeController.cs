@@ -18,6 +18,7 @@ using Digitizing.Api.Cms.Controllers;
 using Easy.Common.Extensions;
 using System.IO;
 using Digitizing.Api.CustomImport;
+using DocumentFormat.OpenXml.EMMA;
 
 namespace Digitizing.Api.Cms.Controllers
 {
@@ -27,15 +28,17 @@ namespace Digitizing.Api.Cms.Controllers
     {
         private IWebHostEnvironment _env;
         private ITuitionFeeBusiness _BUS;
-        public TuitionFeeController(ICacheProvider redis, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env, ITuitionFeeBusiness BUS) : base(redis, configuration, httpContextAccessor)
+        private INotification2Business _BUS2;
+        public TuitionFeeController(ICacheProvider redis, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env, ITuitionFeeBusiness BUS, INotification2Business BUS2) : base(redis, configuration, httpContextAccessor)
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
             _BUS = BUS;
+            _BUS2 = BUS2;
         }
 
         [Route("Upload")]
         [HttpPost, DisableRequestSizeLimit]
-        public async Task<ResponseMessage<List<string>>> Upload(string academy_year, int semester, IFormFile file)
+        public async Task<ResponseMessage<List<string>>> Upload(string user_id, string class_id, string academy_year, int semester, IFormFile file)
         {
             var response = new ResponseMessage<List<string>> ();
             List<string> students = new List<string> ();
@@ -61,7 +64,7 @@ namespace Digitizing.Api.Cms.Controllers
                                 model.tuition_fee_id = Guid.NewGuid();
                                 model.academy_year = academy_year;
                                 model.semester = semester;
-                                model.created_by_user_id = CurrentUserId;
+                                model.created_by_user_id = Guid.Parse(user_id);
                                 string student_rcd = await Task.FromResult(_BUS.Create(model));
                                 if(!string.IsNullOrEmpty(student_rcd))
                                 {
@@ -70,6 +73,21 @@ namespace Digitizing.Api.Cms.Controllers
                             }
                             catch { }
                         }
+
+                    if(students.Count > 0)
+                    {
+                        NotificationInfoModel notifyInfo = new NotificationInfoModel
+                        {
+                            notification_info_id = Guid.NewGuid(),
+                            notification_title = "Thông báo học phí",
+                            notification_content = "Học phí đã được cập nhập",
+                            notification_type = 0,
+                            class_id = class_id,
+                            created_by_user_id = Guid.Parse(user_id),
+                            receivers = students
+                        };
+                        await Task.FromResult(_BUS2.Create(notifyInfo));
+                    }
 
                     response.Data = students;
                     response.MessageCode = MessageCodes.UpdateSuccessfully;

@@ -292,33 +292,6 @@ namespace Digitizing.Api.CustomImport
                             isSkipRow = true;
                         }
 
-                        //foreach (ExcelRangeBase item in excelRange)
-                        //{
-                        //    // Skip row
-                        //    if (item.Start.Column == 2)
-                        //    {
-                        //        ExcelRange mergedRange = excelWorksheet.Cells[item.Start.Row, item.Start.Column, item.End.Row, item.End.Column];
-
-                        //        if (mergedRange.Value.ToString().Trim() == "Lớp:")
-                        //        {
-                        //            isSkipRow = true;
-                        //            break;
-                        //        }
-                        //        isSkipRow = false;
-                        //    }
-                        //    // Skip column "STT" and "Họ và tên"
-                        //    if (mergedCellIndexes.Contains(item.Start.Column))
-                        //    {
-                        //        if (item != null)
-                        //        {
-                        //            flag = true;
-                        //        }
-                        //        dataRow[index] = item.Value;
-                        //        text += ((item.Value != null) ? item.Value : "");
-                        //        index++;
-                        //    }
-                        //}
-
                         if (flag && !string.IsNullOrEmpty(text.Trim()))
                         {
                             dataTable.Rows.Add(dataRow);
