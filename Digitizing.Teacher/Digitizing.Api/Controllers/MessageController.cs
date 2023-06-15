@@ -65,7 +65,7 @@ namespace Digitizing.Api.Controllers
                 request.text_search = request.text_search.IsNullOrEmpty() ? "" : request.text_search;
                 request.user_id = null;
                 long total = 0;
-                var data = await Task.FromResult(_messageBUS.SearchListUser(request, out total));
+                var data = await Task.FromResult(_messageBUS.SearchListTeacher(request, out total));
                 response.TotalItems = total;
                 response.Data = data;
                 response.Page = request.page;
@@ -88,12 +88,31 @@ namespace Digitizing.Api.Controllers
                 request.text_search = request.text_search.IsNullOrEmpty() ? "" : request.text_search;
                 request.user_id = null;
                 long total = 0;
-                var data = await Task.FromResult(_messageBUS.SearchListUser(request, out total));
+                var data = await Task.FromResult(_messageBUS.SearchListParent(request, out total));
                 response.TotalItems = total;
                 response.Data = data;
                 response.Page = request.page;
                 response.PageSize = request.pageSize;
 
+            }
+            catch (Exception ex)
+            {
+                response.MessageCode = ex.Message;
+            }
+            return response;
+        }
+        [Route("get-user")]
+        [HttpPost] // Lấy 1 người dùng trong hệ thống
+        public async Task<ResponseMessage<UserInChatModel>> GetUser(UserInChatRequest request)
+        {
+            var response = new ResponseMessage<UserInChatModel>();
+            try
+            {
+                request.text_search = "";
+                request.user_id = request.user_id;
+                long total = 0;
+                var data = await Task.FromResult(_messageBUS.SearchListUser(request, out total)[0]);
+                response.Data = data;
             }
             catch (Exception ex)
             {
